@@ -1,0 +1,29 @@
+{% extends "tickets/base.html" %}
+
+{% load markup %}
+
+{% block content %}
+
+<h2> Nova incidència </h2>
+
+{% if message %}
+	Incidència introduida correctament
+{% else %}
+	<form method="POST">
+
+	Text:<br>
+	<textarea name="text" rows=10 cols=80></textarea>
+	<br><br>
+	Lloc: 
+	<select name="place">
+		{% for place in places %}
+			<option value="{{place.id}}"> {{ place.name }} </option>
+		{% endfor %}
+	</select>
+	<br><br>
+	<input type="submit">
+
+	</form>
+{% endif %}
+
+{% endblock %}

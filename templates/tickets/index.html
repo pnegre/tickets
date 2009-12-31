@@ -1,18 +1,20 @@
-<html>
+{% extends "tickets/base.html" %}
 
-<head></head>
+{% load markup %}
 
+{% block content %}
 
-<body>
+<h2> Llista incidencies en estat "{{ state }}"</h2>
 
-<p>
-{{ fullname }} <a href="logout"> Logout </a>
-</p>
+<table id="tickettable">
+<tr><th>Data</th><th>Descripció</th><th>Usuari</th></tr>
+{% for ticket in tickets %}
+	<tr>
+		<td> {{ ticket.date|date:"d-m-y, H:i:s"}} </td>
+		<td> <a href="/tickets/ticket/{{ ticket.id }}">{{ ticket.description|truncatewords:12 }}</a> </td>
+		<td> {{ ticket.reporter_email }} </td>
+	</tr>
+{% endfor %}
+</table>
 
-<h1> Llista incidencies </h1>
-
-
-
-</body>
-
-</html>
+{% endblock %}

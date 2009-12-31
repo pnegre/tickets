@@ -1,0 +1,144 @@
+<html>
+
+
+
+<head>
+
+<style type="text/css">
+
+p { 
+	margin:0px;
+	padding: 5px;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+li {
+	margin: 0px;
+	padding: 0px;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+#topbar {
+	background-color: #EEE;
+	padding: 7px;
+	margin-bottom: 10px;
+}
+
+#maintable {
+	width: 100%;
+	
+}
+
+#maintable td {
+	padding: 15px;
+	vertical-align: top;
+	margin: 5px;
+	padding-top: 0px;
+}
+
+#menu {
+	width: 200px;
+	background-color: #FEE;
+}
+
+#content {
+}
+
+#tickettable {
+	border: 1px solid gray;
+	width: 100%;
+}
+
+#tickettable td, #tickettable th {
+	border: 1px solid gray;
+	text-align: left;
+	padding: 5px;
+}
+
+
+#ticket_descr {
+	border: 1px solid #EEE;
+	padding: 3px;
+	background-color: #DDD;
+	margin: 0px;
+}
+
+.ticket_user {
+	float: left;
+}
+
+.ticket_date {
+	float: right;
+}
+
+#comment {
+	border: 1px solid gray;
+	padding: 0px;
+	margin-bottom: 3px;
+}
+
+#newcomment textarea {
+	width: 100%;
+}
+
+#newcomment {
+	margin-bottom: 30px;
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+<p id="topbar">
+{{ session.fullname }} || <a href="logout"> Logout </a>
+</p>
+
+<table id="maintable">
+	<tr>
+	<td id="menu">
+	
+	<h1> Opcions </h1>
+	<ul>
+	<li> <a href="/tickets/open"> Obertes </a></li>
+	<li> <a href="/tickets/closed"> Tancades </a></li>
+	<li> <a href="/tickets/pending">Pendents </a></li>
+	</ul>
+	
+	<h1> Nova incidència </h1>
+	<ul>
+	<li> <a href="/tickets/new">Obrir nova</a> </li>
+	</ul>
+	
+	<h1> Utilitats </h1>
+	<ul>
+	<li> Darrers comentaris </li>
+	<li> Cercador </li>
+	</ul>
+	
+	
+	</td>
+
+	<td id="content">
+
+	{% block content %}
+
+	{% endblock %}
+
+	</td>
+	</tr>
+</table>
+</body>
+
+</html>
