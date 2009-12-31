@@ -1,0 +1,27 @@
+<html>
+
+<head></head>
+
+
+<body>
+
+<h1> Login </h1>
+
+{% if bad_login %}
+<b> Username and/or Password not correct </b>
+{% endif %}
+
+<form method="POST">
+
+Email: <input type="text" name="email"><br><br>
+Pass: <input type="password" name="pass"><br><br>
+
+<input type="submit">
+
+
+</form>
+
+
+</body>
+
+</html>
