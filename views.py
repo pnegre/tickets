@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import render_to_response, get_object_or_404, redirect
-from django.http import HttpResponseRedirect
+#from django.http import HttpResponseRedirect
 from tickets.models import *
 
 import urllib2, urllib
@@ -28,7 +28,7 @@ def logout(request):
         del request.session['userid']
     except KeyError:
         pass
-    return HttpResponseRedirect('login')
+    return redirect(doLogin)
 
 
 
@@ -40,7 +40,8 @@ def doLogin(request):
 			if u.active and checkEmail(request.POST['email'],request.POST['pass']):
 				request.session['userid'] = u.id
 				request.session['fullname'] = u.full_name
-				return HttpResponseRedirect('/tickets/open')
+				return redirect("tickets-open")
+
 		return render_to_response( 'tickets/login.html', { 'bad_login': 1 } )
 	
 	return render_to_response(
@@ -51,9 +52,9 @@ def doList(request,typ):
 	try:
 		user = request.session['userid']
 	except KeyError:
-		return HttpResponseRedirect('/tickets/login')
+		return redirect(doLogin)
 	
-	tickets = Ticket.objects.filter(state=typ)
+	tickets = Ticket.objects.filter(state=typ).order_by('date').reverse()
 	
 	d = {'O': 'OBERTA', 'T': 'TANCADA', 'P': 'PENDENT'}
 	
@@ -69,7 +70,7 @@ def doTicket(request,ticket_id):
 	try:
 		user = request.session['userid']
 	except KeyError:
-		return HttpResponseRedirect('/tickets/login')
+		return redirect(doLogin)
 	
 	ticket = Ticket.objects.filter(id=ticket_id)[0]
 	
@@ -82,15 +83,15 @@ def doTicket(request,ticket_id):
 		elif fields['action'] == 'open':
 			ticket.state = 'O'
 			ticket.save()
-			return redirect('/tickets/closed')
+			return redirect("tickets-closed")
 		elif fields['action'] == 'close':
 			ticket.state = 'T'
 			ticket.save()
-			return redirect('/tickets/open')
+			return redirect("tickets-open")
 		
 	
 	ticket = Ticket.objects.filter(id=ticket_id)[0]
-	comments = Comment.objects.filter(ticket__id=ticket_id)
+	comments = Comment.objects.filter(ticket__id=ticket_id).order_by('date').reverse()
 	
 	return render_to_response(
 		'tickets/ticket.html', {
@@ -104,7 +105,7 @@ def newTicket(request):
 	try:
 		user = request.session['userid']
 	except KeyError:
-		return HttpResponseRedirect('/tickets/login')
+		return redirect(doLogin)
 	
 	message = None
 	if request.method == 'POST':
