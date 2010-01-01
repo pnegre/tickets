@@ -1,26 +1,61 @@
 <html>
 
-<head></head>
+<head>
+
+<STYLE type="text/css">
+		    
+
+#TLOG {
+	border: 1px solid white;
+	width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	background: #EEEEEE;
+}
+
+#TLOG TD {
+	border: 1px solid white;
+	padding: 10px;
+}
+
+h1 { text-align: center; }
+
+input { width: 270px; }
+
+#SUBMIT { 
+	width: 370px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #AAAAAA;
+}
+
+</STYLE>
+
+
+</head>
 
 
 <body>
 
-<h1> Login </h1>
+
+
+
+<H1>Sistema d'incidències</H1>
+<FORM method="post">
+<TABLE id="TLOG">
+<TBODY>
+<TR><TD>E-MAIL: </TD> <TD><INPUT type="text" name="email"></TD></TR> 
+<TR><TD>Pass:</TD> <TD><INPUT type="password" name="pass"></TD></TR> 
+<TR><TD colspan="2"><INPUT type="submit" value="ENTRA" id="SUBMIT"></TD></TR>
 
 {% if bad_login %}
-<b> Username and/or Password not correct </b>
+<TR><TD colspan="2"> Usuari i/o contrassenya no correctes </TD></TR>
 {% endif %}
 
-<form method="POST">
+</TBODY>
+</TABLE>
 
-<p>Email:</p><input type="text" name="email">
-<p>Pass:</p> <input type="password" name="pass">
-
-<p>
-<input type="submit">
-</p>
-
-</form>
 
 
 </body>

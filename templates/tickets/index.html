@@ -7,12 +7,12 @@
 <h2> Llista incidencies en estat "{{ state }}"</h2>
 
 <table id="tickettable">
-<tr><th>Data</th><th>Descripció</th><th>Usuari</th></tr>
+<tr><th class="tt_date">Data</th><th class="tt_descr">Descripció</th><th class="tt_email">Usuari</th></tr>
 {% for ticket in tickets %}
 	<tr>
-		<td> {{ ticket.date|date:"d-m-y, H:i:s"}} </td>
-		<td> <a href="/tickets/ticket/{{ ticket.id }}">{{ ticket.description|truncatewords:12 }}</a> </td>
-		<td> {{ ticket.reporter_email }} </td>
+		<td class="tt_date"> {{ ticket.date|date:"d-m-y, H:i:s"}} </td>
+		<td class="tt_descr"> <a href="/tickets/ticket/{{ ticket.id }}">{{ ticket.description|truncatewords:12 }}</a> </td>
+		<td class="tt_email"> {{ ticket.reporter_email }} </td>
 	</tr>
 {% endfor %}
 </table>

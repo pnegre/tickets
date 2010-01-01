@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from tickets.models import *
 
@@ -9,7 +9,7 @@ import urllib2, urllib
 
 # TODO: segur que això va per POST?????
 def checkEmail(email,password):
-	return True
+	return True # Eliminar això en la versió de producció
 	try:
 		req = urllib2.urlopen('https://www.google.com/accounts/ClientLogin',urllib.urlencode({
 			'accountType': 'HOSTED',
@@ -75,9 +75,19 @@ def doTicket(request,ticket_id):
 	
 	if request.method == "POST":
 		fields = request.POST
-		us = User.objects.filter(id=user)[0]
-		comment = Comment(text=fields['text'], ticket=ticket, author=us)
-		comment.save()
+		if fields['action'] == 'new':
+			us = User.objects.filter(id=user)[0]
+			comment = Comment(text=fields['text'], ticket=ticket, author=us)
+			comment.save()
+		elif fields['action'] == 'open':
+			ticket.state = 'O'
+			ticket.save()
+			return redirect('/tickets/closed')
+		elif fields['action'] == 'close':
+			ticket.state = 'T'
+			ticket.save()
+			return redirect('/tickets/open')
+		
 	
 	ticket = Ticket.objects.filter(id=ticket_id)[0]
 	comments = Comment.objects.filter(ticket__id=ticket_id)

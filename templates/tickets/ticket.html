@@ -17,9 +17,23 @@
 <div style="clear: both"><div>
 <br>
 
+{% ifequal ticket.state "O" %}
+<form method="POST">
+<input type="hidden" name="action" value="close">
+<input type="submit" value="TANCA">
+</form>
+{% endifequal %}
+{% ifequal ticket.state "T" %}
+<form method="POST">
+<input type="hidden" name="action" value="open">
+<input type="submit" value="OBRE" name="changestate">
+</form>
+{% endifequal %}
+
 <form method="POST" id="newcomment">
 	<p>Comentari:</p>
 	<textarea rows=10 name="text"></textarea>
+	<input type="hidden" name="action" value="new">
 	<input type="submit">
 </form>
 
