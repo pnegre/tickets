@@ -88,6 +88,12 @@ def doTicket(request,ticket_id):
 			ticket.state = 'T'
 			ticket.save()
 			return redirect("tickets-open")
+		elif fields['action'] == 'delete':
+			comments = Comment.objects.filter(ticket__id=ticket_id)
+			if comments:
+				for c in comments: c.delete()
+			ticket.delete()
+			return redirect("tickets-open")
 		
 	
 	ticket = Ticket.objects.filter(id=ticket_id)[0]

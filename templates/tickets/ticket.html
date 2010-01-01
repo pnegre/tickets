@@ -30,6 +30,11 @@
 </form>
 {% endifequal %}
 
+<form method="POST">
+<input type="hidden" name="action" value="delete">
+<input type="submit" value="ELIMINA" name="changestate">
+</form>
+
 <form method="POST" id="newcomment">
 	<p>Comentari:</p>
 	<textarea rows=10 name="text"></textarea>
