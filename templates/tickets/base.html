@@ -136,7 +136,7 @@ table {
 <body>
 
 <p id="topbar">
-{{ session.fullname }} || <a href="logout"> Logout </a>
+{{ session.fullname }} || <a href="{% url logout %}"> Logout </a>
 </p>
 
 <table id="maintable">
@@ -145,14 +145,14 @@ table {
 	
 	<h1> Opcions </h1>
 	<ul>
-	<li> <a href="/tickets/open"> Obertes </a></li>
-	<li> <a href="/tickets/closed"> Tancades </a></li>
-	<li> <a href="/tickets/pending">Pendents </a></li>
+	<li> <a href="{% url tickets-open %}"> Obertes </a></li>
+	<li> <a href="{% url tickets-closed %}"> Tancades </a></li>
+	<li> <a href="{% url tickets-pending %}">Pendents </a></li>
 	</ul>
 	
 	<h1> Nova incidència </h1>
 	<ul>
-	<li> <a href="/tickets/new">Obrir nova</a> </li>
+	<li> <a href="{% url tickets-new %}">Obrir nova</a> </li>
 	</ul>
 	
 	<h1> Utilitats </h1>
