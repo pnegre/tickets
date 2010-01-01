@@ -81,9 +81,13 @@ def doTicket(request,ticket_id):
 			comment = Comment(text=fields['text'], ticket=ticket, author=us)
 			comment.save()
 		elif fields['action'] == 'open':
+			s = ticket.state
 			ticket.state = 'O'
 			ticket.save()
-			return redirect("tickets-closed")
+			if s == 'T':
+				return redirect("tickets-closed")
+			else:
+				return redirect("tickets-pending")
 		elif fields['action'] == 'close':
 			ticket.state = 'T'
 			ticket.save()
@@ -93,6 +97,10 @@ def doTicket(request,ticket_id):
 			if comments:
 				for c in comments: c.delete()
 			ticket.delete()
+			return redirect("tickets-open")
+		elif fields['action'] == 'pending':
+			ticket.state = 'P'
+			ticket.save()
 			return redirect("tickets-open")
 		
 	

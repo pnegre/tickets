@@ -18,22 +18,39 @@
 <br>
 
 {% ifequal ticket.state "O" %}
-<form method="POST">
+<form method="POST" class="form_inline">
 <input type="hidden" name="action" value="close">
 <input type="submit" value="TANCA">
 </form>
+
+<form method="POST" class="form_inline">
+<input type="hidden" name="action" value="pending">
+<input type="submit" value="MARCA COM A PENDENT">
+</form>
+
+<form method="POST" class="form_inline">
+<input type="hidden" name="action" value="delete">
+<input type="submit" value="ELIMINA" name="changestate">
+</form>
+
 {% endifequal %}
 {% ifequal ticket.state "T" %}
-<form method="POST">
+<form method="POST" class="form_inline">
 <input type="hidden" name="action" value="open">
 <input type="submit" value="OBRE" name="changestate">
 </form>
 {% endifequal %}
 
-<form method="POST">
-<input type="hidden" name="action" value="delete">
-<input type="submit" value="ELIMINA" name="changestate">
+{% ifequal ticket.state "P" %}
+<form method="POST" class="form_inline">
+<input type="hidden" name="action" value="open">
+<input type="submit" value="OBRE" name="changestate">
 </form>
+{% endifequal %}
+
+<br><br>
+
+
 
 <form method="POST" id="newcomment">
 	<p>Comentari:</p>
