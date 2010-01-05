@@ -138,7 +138,7 @@ table {
 <body>
 
 <p id="topbar">
-{{ session.fullname }} || <a href="{% url logout %}"> Logout </a>
+{{ user.full_name }} || {{ user.project.name }} || <a href="{% url logout %}"> Logout </a>
 </p>
 
 <table id="maintable">

@@ -50,17 +50,18 @@ def doLogin(request):
 
 def doList(request,typ):
 	try:
-		user = request.session['userid']
+		uid = request.session['userid']
+		user = User.objects.filter(id=uid)[0]
 	except KeyError:
 		return redirect(doLogin)
 	
-	tickets = Ticket.objects.filter(state=typ).order_by('date').reverse()
+	tickets = Ticket.objects.filter(state=typ,project=user.project).order_by('date').reverse()
 	
 	d = {'O': 'OBERTA', 'T': 'TANCADA', 'P': 'PENDENT'}
 	
 	return render_to_response(
 		'tickets/index.html', { 
-			'session': request.session,
+			'user': user,
 			'tickets': tickets,
 			'state': d[typ],
 	} )
@@ -68,7 +69,8 @@ def doList(request,typ):
 
 def doTicket(request,ticket_id):
 	try:
-		user = request.session['userid']
+		uid = request.session['userid']
+		user = User.objects.filter(id=uid)[0]
 	except KeyError:
 		return redirect(doLogin)
 	
@@ -77,8 +79,7 @@ def doTicket(request,ticket_id):
 	if request.method == "POST":
 		fields = request.POST
 		if fields['action'] == 'new':
-			us = User.objects.filter(id=user)[0]
-			comment = Comment(text=fields['text'], ticket=ticket, author=us)
+			comment = Comment(text=fields['text'], ticket=ticket, author=user)
 			comment.save()
 		elif fields['action'] == 'open':
 			s = ticket.state
@@ -109,7 +110,7 @@ def doTicket(request,ticket_id):
 	
 	return render_to_response(
 		'tickets/ticket.html', {
-			'session': request.session,
+			'user': user,
 			'ticket': ticket,
 			'comments': comments,
 	} )
@@ -117,29 +118,30 @@ def doTicket(request,ticket_id):
 
 def newTicket(request):
 	try:
-		user = request.session['userid']
+		uid = request.session['userid']
+		user = User.objects.filter(id=uid)[0]
 	except KeyError:
 		return redirect(doLogin)
 	
 	message = None
 	if request.method == 'POST':
 		fields = request.POST
-		us = User.objects.filter(id=user)[0]
 		plc = Place.objects.filter(id=fields['place'])[0]
 		ticket = Ticket(
 			description=fields['text'],
 			state='O',
-			reporter_email=us.email,
-			place=plc
+			reporter_email=user.email,
+			place=plc,
+			project = user.project,
 		)
 		ticket.save()
 		message = 'OK'
 	
-	places = Place.objects.all()
+	places = Place.objects.filter(project=user.project)
 	
 	return render_to_response(
 		'tickets/newticket.html', {
-			'session': request.session,
+			'user': user,
 			'places': places,
 			'message': message
 	} )
