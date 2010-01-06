@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import render_to_response, get_object_or_404, redirect
-#from django.http import HttpResponseRedirect
+from datetime import datetime
 from tickets.models import *
 
 import urllib2, urllib
@@ -48,6 +48,10 @@ def doLogin(request):
 		'tickets/login.html', {} )
 
 
+
+#######################
+# Llista de tickets (oberts, tancats...)
+#######################
 def doList(request,typ):
 	try:
 		uid = request.session['userid']
@@ -66,7 +70,9 @@ def doList(request,typ):
 			'state': d[typ],
 	} )
 
-
+#######################
+# Tickets i comentaris
+#######################
 def doTicket(request,ticket_id):
 	try:
 		uid = request.session['userid']
@@ -91,6 +97,7 @@ def doTicket(request,ticket_id):
 				return redirect("tickets-pending")
 		elif fields['action'] == 'close':
 			ticket.state = 'T'
+			ticket.date_resolved = datetime.now()
 			ticket.save()
 			return redirect("tickets-open")
 		elif fields['action'] == 'delete':
@@ -116,6 +123,10 @@ def doTicket(request,ticket_id):
 	} )
 
 
+
+#######################
+# Nou ticket (com a usuari registrat)
+#######################
 def newTicket(request):
 	try:
 		uid = request.session['userid']

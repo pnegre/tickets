@@ -12,7 +12,7 @@ urlpatterns = patterns('',
 	(r'^closed$', 'tickets.views.doList', {'typ': 'T'}, "tickets-closed"),
 	(r'^pending$', 'tickets.views.doList', {'typ': 'P'}, "tickets-pending"),
 	
-	(r'^ticket/(?P<ticket_id>\d+)$', 'tickets.views.doTicket'),
+	(r'^ticket/(?P<ticket_id>\d+)$', 'tickets.views.doTicket', {}, "ticket-show"),
 	
 	(r'^new$', 'tickets.views.newTicket', {}, "tickets-new"),
 

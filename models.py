@@ -37,7 +37,7 @@ class Ticket(models.Model):
 	
 	description = models.TextField()
 	reporter_email = models.CharField(max_length=200)
-	date = models.DateTimeField(auto_now=True)
+	date = models.DateTimeField(auto_now_add=True)
 	place = models.ForeignKey(Place)
 	date_resolved = models.DateTimeField(blank=True, null=True)
 	state = models.CharField(max_length=2, choices=STATE_CHOICES)
@@ -52,7 +52,7 @@ class Comment(models.Model):
 	text = models.TextField()
 	author = models.ForeignKey(User)
 	ticket = models.ForeignKey(Ticket)
-	date = models.DateTimeField(auto_now=True)
+	date = models.DateTimeField(auto_now_add=True)
 	
 	def __unicode__(self):
 		return self.text[0:50]
