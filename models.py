@@ -25,7 +25,7 @@ class Place(models.Model):
 	project = models.ForeignKey(Project)
 	
 	def __unicode__(self):
-		return self.name
+		return self.name + " | " + self.project.name
 
 
 class Ticket(models.Model):
