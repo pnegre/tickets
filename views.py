@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.http import HttpResponse
+from django.utils import simplejson
 from datetime import datetime
 from tickets.models import *
 
@@ -9,7 +11,7 @@ import urllib2, urllib
 
 # TODO: segur que això va per POST?????
 def checkEmail(email,password):
-	return True # Eliminar això en la versió de producció
+	#return True # Eliminar això en la versió de producció
 	try:
 		req = urllib2.urlopen('https://www.google.com/accounts/ClientLogin',urllib.urlencode({
 			'accountType': 'HOSTED',
@@ -156,3 +158,38 @@ def newTicket(request):
 			'places': places,
 			'message': message
 	} )
+
+
+def userTicket(request):
+	projects = Project.objects.all();
+	
+	message = None
+	if request.method == 'POST':
+		fields = request.POST
+		message = 'NO'
+		if checkEmail(fields['email'],fields['pass']):
+			try: 
+				
+				ticket = Ticket(
+					description = fields['descrip'],
+					state = 'O',
+					reporter_email = fields['email'],
+					place = Place.objects.filter(id=fields['lloc'])[0],
+					project = Project.objects.filter(id=fields['tipus'])[0],
+				)
+				ticket.save()
+				message = 'OK'
+			except:
+				pass
+	
+	return render_to_response(
+		'tickets/userticket.html', {
+			'message': message,
+			'projects': projects,
+	} )
+
+
+def getPlaces(request,project):
+	places = Place.objects.filter(project__id=project)
+	r = dict(map(lambda x: (x.id, x.name), places))
+	return HttpResponse(simplejson.dumps(r), mimetype='application/javascript')
