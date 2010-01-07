@@ -77,9 +77,7 @@ def doList(request,typ):
 #######################
 # Tickets i comentaris
 #######################
-
 EMAIL_TEXT = u"Aquest missatge l'ha enviat el programa d'incidències per avisar-vos que hi ha un comentari referent a la incidència que reportàreu:"
-
 def doTicket(request,ticket_id):
 	try:
 		uid = request.session['userid']
@@ -174,6 +172,9 @@ def newTicket(request):
 	} )
 
 
+#######################
+# Nou ticket (com a usuari "anònim")
+#######################
 def userTicket(request):
 	projects = Project.objects.all();
 	

@@ -24,7 +24,7 @@ $(document).ready(function() {
 {% block content %}
 
 <div id="ticket_descr">
-{{ ticket.description|markdown }}
+{{ ticket.description|markdown:"safe" }}
 </div>
 <div class="ticket_user">
 {{ ticket.reporter_email }}
@@ -84,7 +84,7 @@ $(document).ready(function() {
 
 {% for comment in comments %}
 	<div id="comment">
-	{{ comment.text|markdown }}
+	{{ comment.text|markdown:"safe" }}
 	</div>
 	<div class="ticket_user">
 	{{ comment.author.full_name }}
