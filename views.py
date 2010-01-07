@@ -3,6 +3,8 @@
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.utils import simplejson
+from django.core.mail import send_mail
+
 from datetime import datetime
 from tickets.models import *
 
@@ -75,6 +77,9 @@ def doList(request,typ):
 #######################
 # Tickets i comentaris
 #######################
+
+EMAIL_TEXT = u"Aquest missatge l'ha enviat el programa d'incidències per avisar-vos que hi ha un comentari referent a la incidència que reportàreu:"
+
 def doTicket(request,ticket_id):
 	try:
 		uid = request.session['userid']
@@ -89,6 +94,15 @@ def doTicket(request,ticket_id):
 		if fields['action'] == 'new':
 			comment = Comment(text=fields['text'], ticket=ticket, author=user)
 			comment.save()
+			if fields.has_key('email'):
+				send_mail(
+					'[Es Liceu] Ticket ' + str(ticket.id), 
+					EMAIL_TEXT + "\n\n" + ticket.description + "\n\n" + 
+						"Comentari: \n\n" + fields['text'] + "\n\n" + 
+						"Autor: " + user.full_name + " (" + user.email + ")", 
+					'tickets@esliceu.com', 
+					[ ticket.reporter_email ]
+				)
 		elif fields['action'] == 'open':
 			s = ticket.state
 			ticket.state = 'O'

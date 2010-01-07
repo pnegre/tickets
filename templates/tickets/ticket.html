@@ -72,9 +72,11 @@ $(document).ready(function() {
 
 {% ifequal ticket.state "O" %}
 <form method="POST" id="newcomment">
+	
 	<p>Comentari:</p>
 	<textarea rows=10 name="text"></textarea>
 	<input type="hidden" name="action" value="new">
+	<input type="checkbox" name="email">Enviar comentari per email<br>
 	<input type="submit">
 </form>
 {% endifequal %}
