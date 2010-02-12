@@ -57,11 +57,8 @@ def doLogin(request):
 # Llista de tickets (oberts, tancats...)
 #######################
 def doList(request,typ):
-	try:
-		uid = request.session['userid']
-		user = User.objects.filter(id=uid)[0]
-	except KeyError:
-		return redirect(doLogin)
+	uid = request.session['userid']
+	user = User.objects.filter(id=uid)[0]
 	
 	tickets = Ticket.objects.filter(state=typ,project=user.project).order_by('date').reverse()
 	
@@ -79,11 +76,8 @@ def doList(request,typ):
 #######################
 EMAIL_TEXT = u"Aquest missatge l'ha enviat el programa d'incidències per avisar-vos que hi ha un comentari referent a la incidència que reportàreu:"
 def doTicket(request,ticket_id):
-	try:
-		uid = request.session['userid']
-		user = User.objects.filter(id=uid)[0]
-	except KeyError:
-		return redirect(doLogin)
+	uid = request.session['userid']
+	user = User.objects.filter(id=uid)[0]
 	
 	ticket = Ticket.objects.filter(id=ticket_id)[0]
 	
@@ -142,11 +136,8 @@ def doTicket(request,ticket_id):
 # Nou ticket (com a usuari registrat)
 #######################
 def newTicket(request):
-	try:
-		uid = request.session['userid']
-		user = User.objects.filter(id=uid)[0]
-	except KeyError:
-		return redirect(doLogin)
+	uid = request.session['userid']
+	user = User.objects.filter(id=uid)[0]
 	
 	message = None
 	if request.method == 'POST':
