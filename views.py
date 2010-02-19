@@ -13,7 +13,6 @@ import urllib2, urllib
 
 # TODO: segur que això va per POST?????
 def checkEmail(email,password):
-	#return True # Eliminar això en la versió de producció
 	try:
 		req = urllib2.urlopen('https://www.google.com/accounts/ClientLogin',urllib.urlencode({
 			'accountType': 'HOSTED',
@@ -29,7 +28,7 @@ def checkEmail(email,password):
 
 def logout(request):
     try:
-        del request.session['userid']
+        del request.session['theuser']
     except KeyError:
         pass
     return redirect(doLogin)
@@ -42,8 +41,7 @@ def doLogin(request):
 		if user:
 			u = user[0]
 			if u.active and checkEmail(request.POST['email'],request.POST['pass']):
-				request.session['userid'] = u.id
-				request.session['fullname'] = u.full_name
+				request.session['theuser'] = u
 				return redirect("tickets-open")
 
 		return render_to_response( 'tickets/login.html', { 'bad_login': 1 } )
@@ -56,17 +54,12 @@ def doLogin(request):
 #######################
 # Llista de tickets (oberts, tancats...)
 #######################
-def doList(request,typ):
-	uid = request.session['userid']
-	user = User.objects.filter(id=uid)[0]
-	
-	tickets = Ticket.objects.filter(state=typ,project=user.project).order_by('date').reverse()
-	
+def doList(request,typ):	
+	tickets = Ticket.objects.filter(state=typ,project=request.user.project).order_by('date').reverse()
 	d = {'O': 'OBERTA', 'T': 'TANCADA', 'P': 'PENDENT'}
-	
 	return render_to_response(
 		'tickets/index.html', { 
-			'user': user,
+			'user': request.user,
 			'tickets': tickets,
 			'state': d[typ],
 	} )
@@ -76,22 +69,19 @@ def doList(request,typ):
 #######################
 EMAIL_TEXT = u"Aquest missatge l'ha enviat el programa d'incidències per avisar-vos que hi ha un comentari referent a la incidència que reportàreu:"
 def doTicket(request,ticket_id):
-	uid = request.session['userid']
-	user = User.objects.filter(id=uid)[0]
-	
 	ticket = Ticket.objects.filter(id=ticket_id)[0]
 	
 	if request.method == "POST":
 		fields = request.POST
 		if fields['action'] == 'new':
-			comment = Comment(text=fields['text'], ticket=ticket, author=user)
+			comment = Comment(text=fields['text'], ticket=ticket, author=request.user)
 			comment.save()
 			if fields.has_key('email'):
 				send_mail(
 					'[Es Liceu] Ticket ' + str(ticket.id), 
 					EMAIL_TEXT + "\n\n" + ticket.description + "\n\n" + 
 						"Comentari: \n\n" + fields['text'] + "\n\n" + 
-						"Autor: " + user.full_name + " (" + user.email + ")", 
+						"Autor: " + request.user.full_name + " (" + request.user.email + ")", 
 					'tickets@esliceu.com', 
 					[ ticket.reporter_email ]
 				)
@@ -125,7 +115,7 @@ def doTicket(request,ticket_id):
 	
 	return render_to_response(
 		'tickets/ticket.html', {
-			'user': user,
+			'user': request.user,
 			'ticket': ticket,
 			'comments': comments,
 	} )
@@ -136,9 +126,6 @@ def doTicket(request,ticket_id):
 # Nou ticket (com a usuari registrat)
 #######################
 def newTicket(request):
-	uid = request.session['userid']
-	user = User.objects.filter(id=uid)[0]
-	
 	message = None
 	if request.method == 'POST':
 		fields = request.POST
@@ -146,18 +133,18 @@ def newTicket(request):
 		ticket = Ticket(
 			description=fields['text'],
 			state='O',
-			reporter_email=user.email,
+			reporter_email=request.user.email,
 			place=plc,
-			project = user.project,
+			project = request.user.project,
 		)
 		ticket.save()
 		message = 'OK'
 	
-	places = Place.objects.filter(project=user.project)
+	places = Place.objects.filter(project=request.user.project)
 	
 	return render_to_response(
 		'tickets/newticket.html', {
-			'user': user,
+			'user': request.user,
 			'places': places,
 			'message': message
 	} )

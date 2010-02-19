@@ -6,21 +6,16 @@ import sys
 
 from tickets.views import doLogin
 
-class middle:
+class MiddleWare:
 	def __init__(self):
 		pass
-	
-	#def process_request(self,request):
-		#pass
+
 	
 	
 	def process_view(self, request, view_func, view_args, view_kwargs):
 		module = sys.modules[view_func.__module__]
 		if view_func.func_name in ('doList', 'doTicket', 'newTicket'):
 			try:
-				uid = request.session['userid']
+				request.user = request.session['theuser']
 			except KeyError:
 				return redirect(doLogin)
-	
-	#def process_response(self,request,exception):
-		#pass
