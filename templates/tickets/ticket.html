@@ -26,12 +26,15 @@ $(document).ready(function() {
 <div id="ticket_descr">
 {{ ticket.description|markdown:"safe" }}
 </div>
-<div class="ticket_user">
-{{ ticket.reporter_email }}
-</div>
-<div class="ticket_date">
-{{ ticket.date|date:"d-m-y, H:i" }}
-</div>
+<table id="table_theticket">
+<tr> <th> Usuari: </th> <td> {{ ticket.reporter_email }} </td> </tr>
+<tr> <th> Data: </th> <td> {{ ticket.date|date:"d-m-y, H:i" }} </td> </tr>
+<tr> <th> Lloc: </th> <td> {{ ticket.place.name }} </td> </tr>
+{% ifequal ticket.state "T" %}
+	<tr> <th> Tancada: </th> <td> {{ ticket.date_resolved|date:"d-m-y, H:i" }} </td> </tr>
+{% endifequal %}
+</table>
+
 
 <div style="clear: both"><div>
 <br>

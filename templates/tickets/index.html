@@ -11,10 +11,6 @@
 {% for ticket in tickets %}
 	<tr>
 		<td class="tt_20"> {{ ticket.date|date:"d-m-y, H:i:s"}} 
-		
-		{% ifequal state "TANCADA" %}
-		<br>{{ ticket.date_resolved|date:"d-m-y, H:i:s"}}
-		{% endifequal %}
 		</td>
 		
 		<td class="tt_descr"> <a href="{% url ticket-show ticket.id %}">{{ ticket.description|truncatewords:12 }}</a> </td>
