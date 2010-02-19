@@ -4,11 +4,14 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.utils import simplejson
 from django.core.mail import send_mail
+from django.core.exceptions import ObjectDoesNotExist
 
 from datetime import datetime
 from tickets.models import *
 
 import urllib2, urllib
+
+from tickets.forms import *
 
 
 # TODO: segur que això va per POST?????
@@ -35,19 +38,26 @@ def logout(request):
 
 
 
-def doLogin(request):
+def doLogin(request):	
 	if request.method == 'POST':
-		user = User.objects.filter(email=request.POST['email'])
-		if user:
-			u = user[0]
-			if u.active and checkEmail(request.POST['email'],request.POST['pass']):
-				request.session['theuser'] = u
-				return redirect("tickets-open")
-
-		return render_to_response( 'tickets/login.html', { 'bad_login': 1 } )
+		form = LoginForm(request.POST)
+		if form.is_valid():
+			data = form.cleaned_data
+			try:
+				user = User.objects.get(email=data['email'])
+				if user.active and checkEmail(data['email'],data['password']):
+					request.session['theuser'] = user
+					return redirect("tickets-open")
+			except ObjectDoesNotExist:
+				pass
+		
+		form = LoginForm()
+		return render_to_response('tickets/login.html', { "form": form, "error": 1 } )
 	
-	return render_to_response(
-		'tickets/login.html', {} )
+	else:
+		form = LoginForm()
+		return render_to_response(
+			'tickets/login.html', { "form": form } )
 
 
 

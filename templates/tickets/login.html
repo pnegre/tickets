@@ -13,9 +13,14 @@
 	background: #EEEEEE;
 }
 
-#TLOG TD {
+#TLOG TD, #TLOG TH {
 	border: 1px solid white;
 	padding: 10px;
+	text-align: left;
+}
+
+#TLOG TD.center {
+	text-align: center;
 }
 
 h1 { text-align: center; }
@@ -45,13 +50,19 @@ input { width: 270px; }
 <FORM method="post" action="{% url login %}">
 <TABLE id="TLOG">
 <TBODY>
-<TR><TD>E-MAIL: </TD> <TD><INPUT type="text" name="email"></TD></TR> 
-<TR><TD>Pass:</TD> <TD><INPUT type="password" name="pass"></TD></TR> 
-<TR><TD colspan="2"><INPUT type="submit" value="ENTRA" id="SUBMIT"></TD></TR>
 
-{% if bad_login %}
-<TR><TD colspan="2"> Usuari i/o contrassenya no correctes </TD></TR>
+{{ form }}
+
+<tr><td colspan=2 class="center"><input type="submit"></td></tr>
+
+{% if error %}
+
+<tr><td colspan=2 class="center">
+Nom i/o password no correctes
+</td></tr>
+
 {% endif %}
+
 
 </TBODY>
 </TABLE>
