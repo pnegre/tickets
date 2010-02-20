@@ -11,16 +11,12 @@
 {% else %}
 	<form method="POST">
 
-	Text:<br>
-	<textarea name="text" rows=10 cols=80></textarea>
+	Text: <br>{{ form.text }}
 	<br><br>
-	Lloc: 
-	<select name="place">
-		{% for place in places %}
-			<option value="{{place.id}}"> {{ place.name }} </option>
-		{% endfor %}
-	</select>
+	Lloc: {{ form.place }}
 	<br><br>
+	{{ form.user }}
+	
 	<input type="submit">
 
 	</form>

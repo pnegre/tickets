@@ -136,27 +136,17 @@ def doTicket(request,ticket_id):
 # Nou ticket (com a usuari registrat)
 #######################
 def newTicket(request):
-	message = None
-	if request.method == 'POST':
-		fields = request.POST
-		plc = Place.objects.filter(id=fields['place'])[0]
-		ticket = Ticket(
-			description=fields['text'],
-			state='O',
-			reporter_email=request.user.email,
-			place=plc,
-			project = request.user.project,
-		)
-		ticket.save()
-		message = 'OK'
+	if request.POST:
+		form = NewTicketForm(request.user,request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect("tickets-open")
 	
-	places = Place.objects.filter(project=request.user.project)
-	
+	form = NewTicketForm(request.user)
 	return render_to_response(
 		'tickets/newticket.html', {
 			'user': request.user,
-			'places': places,
-			'message': message
+			'form': form,
 	} )
 
 
