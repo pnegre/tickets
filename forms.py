@@ -12,16 +12,13 @@ class LoginForm(forms.Form):
 class NewTicketForm(forms.Form):
 	text = forms.CharField(widget=forms.Textarea(attrs={'rows': 10, 'cols': 60}))
 	place = forms.ChoiceField()
-	user = forms.CharField(widget=forms.HiddenInput())
 	
 	def __init__(self,user,*args,**kwrds):
 		super(NewTicketForm,self).__init__(*args,**kwrds)
 		self.fields['place'].choices = [[x.id,x.name] for x in Place.objects.filter(project=user.project)]
-		self.fields['user'].widget.attrs['value'] = user.id
 	
-	def save(self):
+	def save(self,user):
 		data = self.cleaned_data
-		user = User.objects.get(id=data['user'])
 		place = Place.objects.get(id=data['place'])
 		ticket = Ticket(
 			description = data['text'],

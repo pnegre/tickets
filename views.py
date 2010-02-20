@@ -139,7 +139,7 @@ def newTicket(request):
 	if request.POST:
 		form = NewTicketForm(request.user,request.POST)
 		if form.is_valid():
-			form.save()
+			form.save(request.user)
 			return redirect("tickets-open")
 	
 	form = NewTicketForm(request.user)
