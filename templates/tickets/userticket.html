@@ -18,7 +18,7 @@
 		input, select, textarea { border: 1px solid black; background-color: #eeeeff; }
 	
 		div {
-			display: blocK;
+			display: block;
 			padding: 10px;
 			margin: 20px;
 			border: 1px solid gray;
@@ -31,6 +31,11 @@
 			padding-right: 0px;
 			border-top: none;
 			text-align: center;
+		}
+		
+		div#message {
+			border: 1px solid gray;
+			padding: 10px;
 		}
 	
 		
@@ -79,6 +84,12 @@
  
 	
 	$(document).ready(function() {
+		
+		$.getJSON("/tickets/getprojects", function(data) {
+			for (var i in data)
+				$('#TIPUS select').append( $("<option>").attr("value",i).html(data[i]) );
+		});
+		
 	
 		$( '#TIPUS select' ).change(function(e) {
 			var v =  $(this).val();
@@ -123,7 +134,19 @@
 		$('#LLOC select').val('0');
 		$('#TIPUS select').val('0');
 		
+		
+		$('#closewindow').click(function() {
+			window.close();
+			return false;
+		});
+		
+		$('#back').click(function() {
+			history.go(-1);
+			return false;
+		});
+		
 	});
+	
 	
 	
 //]]></script> 
@@ -133,29 +156,45 @@
 
 <h1>Report d'incidències ES LICEU</h1>
 
-{% if message %}
+{% if message_ok or message_fail %}
 
-	{% ifequal message "OK" %}
-		Incidència introduïda correctament
+<div id="message">
+	{% if message_ok %}
+	
+		{{ message_ok }}
+		<br><br>
+		Ja podeu tancar la finestra
+	
 	{% else %}
-		ERROR
-	{% endifequal %}
+		
+		<h2>Error </h2>
+		<b>{{ message_fail }}</b>
+		<br><br>
+		<a href="" id="back">Torna al formulari</a>
+	
+	{% endif %}
+
+</div>
 
 {% else %}
 
 	<form method="post" enctype="multipart/form-data"> 
-	<div id="TIPUS"><p>PAS 1: Sel·lecciona el tipus d'incidència</p>Tipus d'incidència: <select name="tipus" > 
-	<option value="0">Sel·leccioni...</option>
-
-	{% for p in projects %}
-		<option value="{{ p.id}}"> {{ p.name}} </p>
-	{% endfor %}
-	
-	</select></div><div id="LLOC"><p>PAS 2: Sel·leciona el lloc on s'ha produït</p><select name="lloc" >
-	<option value="0">Sel·leccioni</option>
+	<div id="TIPUS"><p>PAS 1: Sel·lecciona el tipus d'incidència</p>Tipus d'incidència: 
+	<select name="project" > 
+		<option value="0">Sel·leccioni...</option>
 	</select>
-
-	</select></div><div id="DESCR"><p>PAS 3: Descriu la incidència i especifica la teva identitat</p><textarea name="descrip"  rows="5" cols="60"></textarea><table><tr><td>E-mail del liceu? </td> <td><input type="text" name="email" class="bl" /></td></tr> <tr><td>Password? </td> <td><input type="password" name="pass" class="bl" /></td></tr></table><input type="submit" name=".submit" value="ENVIA" id="SUBMIT" /><input type="hidden" name="rm" value="st2"  /></div></form> 
+	</div>
+	
+	<div id="LLOC"><p>PAS 2: Sel·leciona el lloc on s'ha produït</p>
+	<select name="place" >
+		<option value="0">Sel·leccioni</option>
+	</select>
+	</div>
+	
+	<div id="DESCR"><p>PAS 3: Descriu la incidència i especifica la teva identitat</p><textarea name="text"  rows="5" cols="60"></textarea>
+	<table>
+	<tr><td>E-mail del liceu? </td> <td><input type="text" name="user" class="bl" /></td></tr> 
+	<tr><td>Password? </td> <td><input type="password" name="password" class="bl" /></td></tr></table><input type="submit" name=".submit" value="ENVIA" id="SUBMIT" /><input type="hidden" name="rm" value="st2"  /></div></form> 
 
 {% endif %}
 

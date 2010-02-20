@@ -154,35 +154,37 @@ def newTicket(request):
 # Nou ticket (com a usuari "anònim")
 #######################
 def userTicket(request):
-	projects = Project.objects.all();
+	if request.POST:
+		form = NewTicketFormUser(request.POST)
+		if form.is_valid():
+			data = form.cleaned_data
+			if checkEmail(data['user'],data['password']):
+				form.save()
+				return render_to_response(
+					'tickets/userticket.html', {
+						'message_ok': "Incidència introduïda correctament",
+						'form': form,
+				})
+		
+		return render_to_response(
+			'tickets/userticket.html', {
+				'message_fail': "Usuari i/o password no correctes",
+				'form': form,
+		})
 	
-	message = None
-	if request.method == 'POST':
-		fields = request.POST
-		message = 'NO'
-		if checkEmail(fields['email'],fields['pass']):
-			try: 
-				
-				ticket = Ticket(
-					description = fields['descrip'],
-					state = 'O',
-					reporter_email = fields['email'],
-					place = Place.objects.filter(id=fields['lloc'])[0],
-					project = Project.objects.filter(id=fields['tipus'])[0],
-				)
-				ticket.save()
-				message = 'OK'
-			except:
-				pass
-	
+	form = NewTicketFormUser()
 	return render_to_response(
 		'tickets/userticket.html', {
-			'message': message,
-			'projects': projects,
+			'form': form,
 	} )
 
 
 def getPlaces(request,project):
 	places = Place.objects.filter(project__id=project)
 	r = dict(map(lambda x: (x.id, x.name), places))
+	return HttpResponse(simplejson.dumps(r), mimetype='application/javascript')
+
+def getProjects(request):
+	projects = Project.objects.all()
+	r = dict(map(lambda x: (x.id, x.name), projects))
 	return HttpResponse(simplejson.dumps(r), mimetype='application/javascript')
