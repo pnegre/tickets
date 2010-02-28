@@ -145,6 +145,15 @@
 			return false;
 		});
 		
+		$('form input#SUBMIT').click(function() {
+			var email = $(this).parent().find('input[name=user]').attr("value");
+			if (email.indexOf('esliceu.com') == -1)
+			{
+				alert("El teu nom d'usuari és la teva adreça de correu (@esliceu.com)");
+				return false;
+			}
+		});
+		
 	});
 	
 	
@@ -179,6 +188,7 @@
 {% else %}
 
 	<form method="post" enctype="multipart/form-data"> 
+	
 	<div id="TIPUS"><p>PAS 1: Sel·lecciona el tipus d'incidència</p>Tipus d'incidència: 
 	<select name="project" > 
 		<option value="0">Sel·leccioni...</option>
@@ -194,7 +204,11 @@
 	<div id="DESCR"><p>PAS 3: Descriu la incidència i especifica la teva identitat</p><textarea name="text"  rows="5" cols="60"></textarea>
 	<table>
 	<tr><td>E-mail del liceu? </td> <td><input type="text" name="user" class="bl" /></td></tr> 
-	<tr><td>Password? </td> <td><input type="password" name="password" class="bl" /></td></tr></table><input type="submit" name=".submit" value="ENVIA" id="SUBMIT" /><input type="hidden" name="rm" value="st2"  /></div></form> 
+	<tr><td>Password? </td> <td><input type="password" name="password" class="bl" /></td></tr></table>
+	<input type="submit" name=".submit" value="ENVIA" id="SUBMIT" /><input type="hidden" name="rm" value="st2"  />
+	</div>
+	
+	</form> 
 
 {% endif %}
 
