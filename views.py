@@ -188,3 +188,5 @@ def getProjects(request):
 	projects = Project.objects.all()
 	r = dict(map(lambda x: (x.id, x.name), projects))
 	return HttpResponse(simplejson.dumps(r), mimetype='application/javascript')
+
+

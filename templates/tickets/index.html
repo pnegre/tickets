@@ -2,6 +2,57 @@
 
 {% load markup %}
 
+
+{% block header %}
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	
+	function get_yellow_div(t)
+	{
+		return t.parent().find('div.yellow_helper');
+	}
+	
+	$('td.tt_descr a').hover(function() {
+		var d = get_yellow_div($(this));
+		d.css("display","block");
+	}, function() {
+		var d = get_yellow_div($(this));
+		d.css("display","none");
+	});
+
+	$('td.tt_descr a').mousemove(function(e) {
+		var d = get_yellow_div($(this));
+		d.css("top", (e.pageY + 20) + "px");
+		d.css("left", (e.pageX + 20) + "px");
+	});
+	
+	$('#tickettable tr:even').css('background-color','#EEF');
+	$('#tickettable tr:odd').css('background-color','#EEE');
+
+});
+
+</script>
+
+<style type="text/css">
+
+div.yellow_helper {
+	background-color: yellow;
+	padding: 10px;
+	width: 500px;
+	position: absolute;
+	display: none;
+	border: 1px solid silver;
+}
+
+
+</style>
+
+
+
+{% endblock %}
+
 {% block content %}
 
 <h2> Llista incidencies en estat "{{ state }}"</h2>
@@ -13,7 +64,9 @@
 		<td class="tt_20"> {{ ticket.date|date:"d-m-y, H:i:s"}} 
 		</td>
 		
-		<td class="tt_descr"> <a href="{% url ticket-show ticket.id %}">{{ ticket.description|truncatewords:12 }}</a> </td>
+		<td class="tt_descr"> <a href="{% url ticket-show ticket.id %}">{{ ticket.description|truncatewords:12 }}</a> 
+			<div class="yellow_helper"> {{ ticket.description|markdown:"safe" }} </div>
+		</td>
 		<td class="tt_20"> {{ ticket.place.name }} </td>
 		<td class="tt_20"> {{ ticket.reporter_email }}  </td>
 	</tr>
