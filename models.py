@@ -1,31 +1,25 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.contrib.auth.models import *
 
 
 class Project(models.Model):
 	name = models.CharField(max_length=200)
-	
 	def __unicode__(self):
 		return self.name
 
 
-
-class User(models.Model):	
-	email = models.CharField(max_length=200)
-	full_name = models.CharField(max_length=200)
-	active = models.BooleanField(default=True)
+# Associate user with project
+class ProjectUser(models.Model):
 	project = models.ForeignKey(Project)
-	
-	def __unicode__(self):
-		return self.email
+	user = models.ForeignKey(User)
 
 
 class Place(models.Model):
 	name = models.CharField(max_length=500)
-	project = models.ForeignKey(Project)
 	
 	def __unicode__(self):
-		return self.name + " | " + self.project.name
+		return self.name
 
 
 class Ticket(models.Model):
@@ -45,6 +39,11 @@ class Ticket(models.Model):
 	
 	def __unicode__(self):
 		return self.description[0:50]
+	
+	class Meta:
+		permissions = (
+			('adminTickets','Pot administrar tickets'),
+		)
 
 
 

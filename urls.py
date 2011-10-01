@@ -4,9 +4,7 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
 
-	(r'^$', 'tickets.views.doLogin'),
-	(r'^login$', 'tickets.views.doLogin', {}, "login"),
-	(r'^logout$', 'tickets.views.logout', {}, "logout"),
+	(r'^$', 'tickets.views.doList', {'typ': 'O'}, "tickets-open"),
 	
 	(r'^open$', 'tickets.views.doList', {'typ': 'O'}, "tickets-open"),
 	(r'^closed$', 'tickets.views.doList', {'typ': 'T'}, "tickets-closed"),
@@ -19,7 +17,5 @@ urlpatterns = patterns('',
 	(r'^userticket$', 'tickets.views.userTicket', {}, "user-ticket"),
 	(r'^getplaces/(?P<project>\d+)$', 'tickets.views.getPlaces', {}, "get-places"),
 	(r'^getprojects$', 'tickets.views.getProjects', {}, "get-projects"),
-	
-	
 
 )

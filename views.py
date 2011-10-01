@@ -14,6 +14,16 @@ import urllib2, urllib
 from tickets.forms import *
 
 
+def getProject(user_):
+	try:
+		p = ProjectUser.objects.get(user=user_)
+	except:
+		p = ProjectUser(user=user_,project=Project.objects.all()[0])
+		p.save()
+	
+	return p
+
+
 # TODO: segur que això va per POST?????
 def checkEmail(email,password):
 	try:
@@ -29,43 +39,12 @@ def checkEmail(email,password):
 
 
 
-def logout(request):
-    try:
-        del request.session['theuser']
-    except KeyError:
-        pass
-    return redirect(doLogin)
-
-
-
-def doLogin(request):	
-	if request.method == 'POST':
-		form = LoginForm(request.POST)
-		if form.is_valid():
-			data = form.cleaned_data
-			try:
-				user = User.objects.get(email=data['email'])
-				if user.active and checkEmail(data['email'],data['password']):
-					request.session['theuser'] = user
-					return redirect("tickets-open")
-			except ObjectDoesNotExist:
-				pass
-		
-		form = LoginForm()
-		return render_to_response('tickets/login.html', { "form": form, "error": 1 } )
-	
-	else:
-		form = LoginForm()
-		return render_to_response(
-			'tickets/login.html', { "form": form } )
-
-
-
 #######################
 # Llista de tickets (oberts, tancats...)
 #######################
-def doList(request,typ):	
-	tickets = Ticket.objects.filter(state=typ,project=request.user.project).order_by('date').reverse()
+def doList(request,typ):
+	proj = getProject(request.user)
+	tickets = Ticket.objects.filter(state=typ,project=proj).order_by('date').reverse()
 	d = {'O': 'OBERTA', 'T': 'TANCADA', 'P': 'PENDENT'}
 	return render_to_response(
 		'tickets/index.html', { 
@@ -73,6 +52,8 @@ def doList(request,typ):
 			'tickets': tickets,
 			'state': d[typ],
 	} )
+
+
 
 #######################
 # Tickets i comentaris
@@ -150,6 +131,7 @@ def newTicket(request):
 	} )
 
 
+
 #######################
 # Nou ticket (com a usuari "anònim")
 #######################
@@ -179,10 +161,13 @@ def userTicket(request):
 	} )
 
 
+
 def getPlaces(request,project):
 	places = Place.objects.filter(project__id=project)
 	r = dict(map(lambda x: (x.id, x.name), places))
 	return HttpResponse(simplejson.dumps(r), mimetype='application/javascript')
+
+
 
 def getProjects(request):
 	projects = Project.objects.all()

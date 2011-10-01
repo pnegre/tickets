@@ -3,11 +3,6 @@
 from django import forms
 from tickets.models import *
 
-class LoginForm(forms.Form):
-	email = forms.CharField(max_length=100)
-	password = forms.CharField(max_length=100,widget=forms.PasswordInput())
-
-
 
 class NewTicketForm(forms.Form):
 	text = forms.CharField(widget=forms.Textarea(attrs={'rows': 10, 'cols': 60}))
