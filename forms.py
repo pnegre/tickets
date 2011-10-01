@@ -2,6 +2,7 @@
 
 from django import forms
 from tickets.models import *
+from tickets.aux import *
 
 
 class NewTicketForm(forms.Form):
@@ -10,7 +11,7 @@ class NewTicketForm(forms.Form):
 	
 	def __init__(self,user,*args,**kwrds):
 		super(NewTicketForm,self).__init__(*args,**kwrds)
-		self.fields['place'].choices = [[x.id,x.name] for x in Place.objects.filter(project=user.project)]
+		self.fields['place'].choices = [[x.id,x.name] for x in Place.objects.all()]
 	
 	def save(self,user):
 		data = self.cleaned_data
@@ -20,7 +21,7 @@ class NewTicketForm(forms.Form):
 			state = 'O',
 			reporter_email = user.email,
 			place = place,
-			project = user.project,
+			project = getProject(user),
 		)
 		ticket.save()
 

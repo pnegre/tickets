@@ -12,16 +12,8 @@ from tickets.models import *
 import urllib2, urllib
 
 from tickets.forms import *
+from tickets.aux import *
 
-
-def getProject(user_):
-	try:
-		p = ProjectUser.objects.get(user=user_)
-	except:
-		p = ProjectUser(user=user_,project=Project.objects.all()[0])
-		p.save()
-	
-	return p
 
 
 # TODO: segur que això va per POST?????
