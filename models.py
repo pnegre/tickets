@@ -5,6 +5,7 @@ from django.contrib.auth.models import *
 
 class Project(models.Model):
 	name = models.CharField(max_length=200)
+	
 	def __unicode__(self):
 		return self.name
 
@@ -13,6 +14,9 @@ class Project(models.Model):
 class ProjectUser(models.Model):
 	project = models.ForeignKey(Project)
 	user = models.ForeignKey(User)
+	
+	def __unicode__(self):
+		return self.user.username + " | " + unicode(self.project)
 
 
 class Place(models.Model):
@@ -36,6 +40,7 @@ class Ticket(models.Model):
 	date_resolved = models.DateTimeField(blank=True, null=True)
 	state = models.CharField(max_length=2, choices=STATE_CHOICES)
 	project = models.ForeignKey(Project)
+	priority = models.IntegerField(default=5)
 	
 	def __unicode__(self):
 		return self.description[0:50]

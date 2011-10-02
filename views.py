@@ -6,6 +6,8 @@ from django.utils import simplejson
 from django.core.mail import send_mail
 from django.core.exceptions import ObjectDoesNotExist
 
+from django.contrib.auth.decorators import login_required, permission_required
+
 from datetime import datetime
 from tickets.models import *
 
@@ -34,6 +36,7 @@ def checkEmail(email,password):
 #######################
 # Llista de tickets (oberts, tancats...)
 #######################
+@permission_required('tickets.admintickets')
 def doList(request,typ):
 	proj = getProject(request.user)
 	tickets = Ticket.objects.filter(state=typ,project=proj).order_by('date').reverse()
@@ -51,6 +54,7 @@ def doList(request,typ):
 # Tickets i comentaris
 #######################
 EMAIL_TEXT = u"Aquest missatge l'ha enviat el programa d'incidències per avisar-vos que hi ha un comentari referent a la incidència que reportàreu:"
+@permission_required('tickets.admintickets')
 def doTicket(request,ticket_id):
 	ticket = Ticket.objects.filter(id=ticket_id)[0]
 	
@@ -108,6 +112,7 @@ def doTicket(request,ticket_id):
 #######################
 # Nou ticket (com a usuari registrat)
 #######################
+@permission_required('tickets.admintickets')
 def newTicket(request):
 	if request.POST:
 		form = NewTicketForm(request.user,request.POST)
