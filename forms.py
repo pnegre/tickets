@@ -30,17 +30,15 @@ class NewTicketFormUser(forms.Form):
 	text = forms.CharField(widget=forms.Textarea(attrs={'rows': 10, 'cols': 60}))
 	place = forms.ChoiceField(choices = [[x.id,x.name] for x in Place.objects.all()])
 	project = forms.ChoiceField(choices = [[x.id,x.name] for x in Project.objects.all()])
-	user = forms.CharField()
-	password = forms.CharField()
 	
-	def save(self):
+	def save(self,user):
 		data = self.cleaned_data
 		project = Project.objects.get(id=data['project'])
 		place = Place.objects.get(id=data['place'])
 		ticket = Ticket(
 			description = data['text'],
 			state = 'O',
-			reporter_email = data['user'],
+			reporter_email = user.email,
 			place = place,
 			project = project,
 		)

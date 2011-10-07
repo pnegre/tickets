@@ -137,19 +137,12 @@ def userTicket(request):
 		form = NewTicketFormUser(request.POST)
 		if form.is_valid():
 			data = form.cleaned_data
-			if checkEmail(data['user'],data['password']):
-				form.save()
-				return render_to_response(
-					'tickets/userticket.html', {
-						'message_ok': "Incidència introduïda correctament",
-						'form': form,
-				})
-		
-		return render_to_response(
-			'tickets/userticket.html', {
-				'message_fail': "Usuari i/o password no correctes",
-				'form': form,
-		})
+			form.save(request.user)
+			return render_to_response(
+				'tickets/userticket.html', {
+					'message_ok': "Incidència introduïda correctament",
+					'form': form,
+			})
 	
 	form = NewTicketFormUser()
 	return render_to_response(

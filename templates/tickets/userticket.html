@@ -22,7 +22,7 @@
 			padding: 10px;
 			margin: 20px;
 			border: 1px solid gray;
-			width: 600px;
+			width: 700px;
 			margin-left: auto;
 			margin-right: auto;
 			padding-top: 0px;
@@ -145,7 +145,7 @@
 			return false;
 		});
 		
-		$('form input#SUBMIT').click(function() {
+/*		$('form input#SUBMIT').click(function() {
 			var email = $(this).parent().find('input[name=user]').attr("value");
 			if (email.indexOf('esliceu.com') == -1)
 			{
@@ -153,7 +153,7 @@
 				return false;
 			}
 		});
-		
+*/
 	});
 	
 	
@@ -201,10 +201,9 @@
 	</select>
 	</div>
 	
-	<div id="DESCR"><p>PAS 3: Descriu la incidència i especifica la teva identitat</p><textarea name="text"  rows="5" cols="60"></textarea>
-	<table>
-	<tr><td>E-mail del liceu? </td> <td><input type="text" name="user" class="bl" /></td></tr> 
-	<tr><td>Password? </td> <td><input type="password" name="password" class="bl" /></td></tr></table>
+	<div id="DESCR"><p>PAS 3: Descriu la incidència i pitja el botó "Envia"</p><textarea name="text"  rows="8" cols="80"></textarea>
+	<br><br>
+
 	<input type="submit" name=".submit" value="ENVIA" id="SUBMIT" /><input type="hidden" name="rm" value="st2"  />
 	</div>
 	
