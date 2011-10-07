@@ -160,7 +160,7 @@ def userTicket(request):
 
 
 def getPlaces(request,project):
-	places = Place.objects.filter(project__id=project)
+	places = Place.objects.all()
 	r = dict(map(lambda x: (x.id, x.name), places))
 	return HttpResponse(simplejson.dumps(r), mimetype='application/javascript')
 
