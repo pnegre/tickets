@@ -18,21 +18,6 @@ from tickets.aux import *
 
 
 
-# TODO: segur que això va per POST?????
-def checkEmail(email,password):
-	try:
-		req = urllib2.urlopen('https://www.google.com/accounts/ClientLogin',urllib.urlencode({
-			'accountType': 'HOSTED',
-			'Email'      : email,
-			'Passwd'     : password,
-			'service'    : 'apps',
-		}))
-		return True
-	except:
-		return False
-
-
-
 #######################
 # Llista de tickets (oberts, tancats...)
 #######################
@@ -132,6 +117,7 @@ def newTicket(request):
 #######################
 # Nou ticket (com a usuari "anònim")
 #######################
+@login_required
 def userTicket(request):
 	if request.POST:
 		form = NewTicketFormUser(request.POST)
@@ -151,14 +137,14 @@ def userTicket(request):
 	} )
 
 
-
+@login_required
 def getPlaces(request,project):
 	places = Place.objects.all()
 	r = dict(map(lambda x: (x.id, x.name), places))
 	return HttpResponse(simplejson.dumps(r), mimetype='application/javascript')
 
 
-
+@login_required
 def getProjects(request):
 	projects = Project.objects.all()
 	r = dict(map(lambda x: (x.id, x.name), projects))

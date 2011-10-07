@@ -171,8 +171,12 @@
 	{% if message_ok %}
 	
 		{{ message_ok }}
-		<br><br>
-		Ja podeu tancar la finestra
+		
+		<script>
+			redirTime = "1000";
+			redirURL = "/auth/logout";
+			setTimeout("self.location.href = redirURL;",redirTime);
+		</script>
 	
 	{% else %}
 		
