@@ -154,7 +154,8 @@ def getProjects(request):
 
 @permission_required('tickets.admintickets')
 def getTickets(request):
-	tickets = Ticket.objects.filter(state='O').order_by('date');
+	proj = getProject(request.user)
+	tickets = Ticket.objects.filter(state='O',project=proj).order_by('date');
 	r = dict(map(lambda x: (x.id, {
 		'description': x.description[:50], 
 		'reporter_email': x.reporter_email,
