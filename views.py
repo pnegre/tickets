@@ -67,7 +67,7 @@ def doTicket(request,ticket_id):
 				return redirect("tickets-pending")
 		elif fields['action'] == 'close':
 			ticket.state = 'T'
-			ticket.date_resolved = datetime.now()
+			ticket.date_resolved = datetime.datetime.now()
 			ticket.save()
 			return redirect("tickets-open")
 		elif fields['action'] == 'delete':
@@ -154,12 +154,22 @@ def getProjects(request):
 
 @permission_required('tickets.admintickets')
 def getTickets(request):
-	tickets = Ticket.objects.all()
+	tickets = Ticket.objects.filter(state='O').order_by('date');
 	r = dict(map(lambda x: (x.id, {
-		'description': x.description, 
+		'description': x.description[:50], 
 		'reporter_email': x.reporter_email,
 	}), tickets))
 	return HttpResponse(simplejson.dumps(r), mimetype='application/javascript')
 
 
+@permission_required('tickets.admintickets')
+def getTicket(request,ticket_id):
+	x = tickets = Ticket.objects.get(id=ticket_id);
+	r = {
+		'description': x.description,
+		'reporter_email': x.reporter_email,
+		'date': str(x.date),
+		'place': x.place.name,
+	}
+	return HttpResponse(simplejson.dumps(r), mimetype='application/javascript')
 

@@ -18,5 +18,6 @@ urlpatterns = patterns('',
 	(r'^getplaces/(?P<project>\d+)$', 'tickets.views.getPlaces', {}, "get-places"),
 	(r'^getprojects$', 'tickets.views.getProjects', {}, "get-projects"),
 	(r'^gettickets$', 'tickets.views.getTickets', {}, "get-tickets"),
+	(r'^getticket/(?P<ticket_id>\d+)$', 'tickets.views.getTicket', {}, 'get-ticket'),
 
 )
