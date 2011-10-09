@@ -151,3 +151,15 @@ def getProjects(request):
 	return HttpResponse(simplejson.dumps(r), mimetype='application/javascript')
 
 
+
+@permission_required('tickets.admintickets')
+def getTickets(request):
+	tickets = Ticket.objects.all()
+	r = dict(map(lambda x: (x.id, {
+		'description': x.description, 
+		'reporter_email': x.reporter_email,
+	}), tickets))
+	return HttpResponse(simplejson.dumps(r), mimetype='application/javascript')
+
+
+
