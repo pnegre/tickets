@@ -95,7 +95,7 @@
 			var v =  $(this).val();
 			if (v != 0) {
 				lloc = $( '#LLOC select' ).html('<option value="0">Sel·leccioni</option>');
-				$.getJSON("/tickets/getplaces/" + v,
+				$.getJSON("/tickets/getplaces",
 					function(data) {						
 						for (var i in data)
 							lloc.append(
