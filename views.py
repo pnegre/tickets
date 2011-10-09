@@ -158,8 +158,10 @@ def getTickets(request):
 	tickets = Ticket.objects.filter(state='O',project=proj).order_by('date');
 	r = dict(map(lambda x: (x.id, {
 		'id': x.id,
-		'description': x.description[:50], 
+		'description': x.description, 
 		'reporter_email': x.reporter_email,
+		'place': x.place.name,
+		'date': str(x.date),
 	}), tickets))
 	return HttpResponse(simplejson.dumps(r), mimetype='application/javascript')
 
