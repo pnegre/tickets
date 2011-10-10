@@ -21,7 +21,7 @@ from tickets.aux import *
 #######################
 # Llista de tickets (oberts, tancats...)
 #######################
-@permission_required('tickets.admintickets')
+@permission_required('tickets.adminTickets')
 def doList(request,typ):
 	proj = getProject(request.user)
 	tickets = Ticket.objects.filter(state=typ,project=proj).order_by('date').reverse()
@@ -39,7 +39,7 @@ def doList(request,typ):
 # Tickets i comentaris
 #######################
 EMAIL_TEXT = u"Aquest missatge l'ha enviat el programa d'incidències per avisar-vos que hi ha un comentari referent a la incidència que reportàreu:"
-@permission_required('tickets.admintickets')
+@permission_required('tickets.adminTickets')
 def doTicket(request,ticket_id):
 	ticket = Ticket.objects.filter(id=ticket_id)[0]
 	
@@ -53,7 +53,7 @@ def doTicket(request,ticket_id):
 					'[Es Liceu] Ticket ' + str(ticket.id), 
 					EMAIL_TEXT + "\n\n" + ticket.description + "\n\n" + 
 						"Comentari: \n\n" + fields['text'] + "\n\n" + 
-						"Autor: " + request.user.full_name + " (" + request.user.email + ")", 
+						"Autor: " + request.user.email, 
 					'tickets@esliceu.com', 
 					[ ticket.reporter_email ]
 				)
@@ -97,7 +97,7 @@ def doTicket(request,ticket_id):
 #######################
 # Nou ticket (com a usuari registrat)
 #######################
-@permission_required('tickets.admintickets')
+@permission_required('tickets.adminTickets')
 def newTicket(request):
 	if request.POST:
 		form = NewTicketForm(request.user,request.POST)
@@ -152,7 +152,7 @@ def getProjects(request):
 
 
 
-@permission_required('tickets.admintickets')
+@permission_required('tickets.adminTickets')
 def getTickets(request):
 	proj = getProject(request.user)
 	tickets = Ticket.objects.filter(state='O',project=proj).order_by('date');
@@ -166,7 +166,7 @@ def getTickets(request):
 	return HttpResponse(simplejson.dumps(r), mimetype='application/javascript')
 
 
-@permission_required('tickets.admintickets')
+@permission_required('tickets.adminTickets')
 def getTicket(request,ticket_id):
 	x = tickets = Ticket.objects.get(id=ticket_id);
 	r = {
