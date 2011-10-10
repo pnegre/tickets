@@ -90,7 +90,7 @@ $(document).ready(function() {
 	{{ comment.text|markdown:"safe" }}
 	</div>
 	<div class="ticket_user">
-	{{ comment.author.full_name }}
+	{{ comment.author.email }}
 	</div>
 	<div class="ticket_date">
 	{{ comment.date|date:"d-m-y, H:i:s" }}
