@@ -59,6 +59,10 @@ table {
 	margin-bottom: 10px;
 }
 
+#topbar span span {
+	float: right;
+}
+
 #maintable {
 	width: 100%;
 	
@@ -175,7 +179,7 @@ table {
 <body>
 
 <p id="topbar">
-<span> {{ user.username }} &nbsp; |  <a href="/hub/"> Tornar a intranet </a> |  <a href="/auth/logout/"> Sortir </a> &nbsp; </span>
+<span> Usuari: {{ user.username }} &nbsp; <span> <a href="/hub/"> Tornar a intranet </a> |  <a href="/auth/logout/"> Sortir </a> &nbsp; </span> </span>
 </p>
 
 <table id="maintable">
