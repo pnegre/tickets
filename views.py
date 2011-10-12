@@ -155,7 +155,7 @@ def getProjects(request):
 @permission_required('tickets.adminTickets')
 def getTickets(request):
 	proj = getProject(request.user)
-	tickets = Ticket.objects.filter(state='O',project=proj).order_by('date');
+	tickets = Ticket.objects.filter(state='O',project=proj).order_by('-date');
 	r = []
 	for t in tickets:
 		r.append({
