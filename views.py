@@ -156,13 +156,15 @@ def getProjects(request):
 def getTickets(request):
 	proj = getProject(request.user)
 	tickets = Ticket.objects.filter(state='O',project=proj).order_by('date');
-	r = dict(map(lambda x: (x.id, {
-		'id': x.id,
-		'description': x.description, 
-		'reporter_email': x.reporter_email,
-		'place': x.place.name,
-		'date': str(x.date),
-	}), tickets))
+	r = []
+	for t in tickets:
+		r.append({
+			'id': t.id,
+			'description': t.description, 
+			'reporter_email': t.reporter_email,
+			'place': t.place.name,
+			'date': str(t.date),
+		})
 	return HttpResponse(simplejson.dumps(r), mimetype='application/javascript')
 
 
