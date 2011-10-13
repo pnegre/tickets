@@ -158,12 +158,15 @@ def getTickets(request):
 	tickets = Ticket.objects.filter(state='O',project=proj).order_by('-date');
 	r = []
 	for t in tickets:
+		cm = Comment.objects.filter(ticket=t)
+		cmts = [ { 'text': c.text, 'author': c.author.username } for c in cm ]
 		r.append({
 			'id': t.id,
 			'description': t.description, 
 			'reporter_email': t.reporter_email,
 			'place': t.place.name,
 			'date': str(t.date),
+			'comments': cmts,
 		})
 	return HttpResponse(simplejson.dumps(r), mimetype='application/javascript')
 
