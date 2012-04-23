@@ -1,220 +1,214 @@
-<html>
+
+{% extends "hub/menu_base.html" %}
+
+{% block baseheader %}
+
+	<title>Tickets</title>  
+
+	<script type="text/javascript" src="/static/tickets/jquery.js"></script>
+
+	<style type="text/css">
+
+	html {
+		font-family: verdana;
+		font-size: 12px;
+	}
+
+	table {
+		font-family: inherit;
+		font-size: inherit;
+	}
+
+	a {
+		text-decoration: none;
+	}
+
+	a:hover {
+		color: red;
+	}
+
+	a:visited {
+		color: blue;
+	}
+
+	p { 
+		margin:0px;
+		padding: 5px;
+	}
+
+	ul {
+		list-style-type: none;
+		margin: 0px;
+		padding: 0px;
+	}
+
+	li {
+		margin: 0px;
+		padding: 0px;
+	}
+
+	table {
+		border-collapse: collapse;
+	}
+
+	#topbar {
+		background-color: #EEE;
+		padding: 7px;
+		margin-bottom: 10px;
+	}
+
+	#topbar span span {
+		float: right;
+	}
+
+	#maintable {
+		width: 100%;
+		
+	}
+
+	#maintable td {
+		padding: 15px;
+		vertical-align: top;
+		margin: 5px;
+		padding-top: 0px;
+	}
+
+	#menu {
+		width: 150px;
+		background-color: #EEF;
+	}
+
+	#menu h1, #menu ul {
+		/*font-size: 15px;*/
+		border: 1px solid gray;
+		margin-bottom: 0px;
+		padding: 5px;
+	}
+
+	#menu h1 {
+		font-size: 120%;
+		margin-top: 10px;
+	}
+
+	#menu ul {
+		border-top: none;
+	}
+
+	#content {
+	}
+
+	#tickettable {
+		width: 100%;
+		margin-bottom: 0px;
+		padding-bottom: 0px;
+	}
+
+	#tickettable td, #tickettable th {
+		border: 1px solid #DDD;
+		text-align: left;
+		padding: 5px;
+	}
 
 
+	#ticket_descr {
+		border: 1px solid #AAA;
+		padding: 5px;
+		background-color: #DDD;
+		margin: 0px;
+		border-bottom: none;
+	}
 
-<head>
+	.ticket_user {
+		float: left;
+	}
 
-<title>Tickets</title> 
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+	.ticket_date {
+		float: right;
+	}
 
-<script type="text/javascript" src="/static/tickets/jquery.js"></script>
+	#comment {
+		border: 1px solid gray;
+		padding: 5px;
+		margin-bottom: 3px;
+	}
 
-<style type="text/css">
+	#newcomment textarea {
+		width: 100%;
+	}
 
-html {
-	font-family: verdana;
-	font-size: 12px;
-}
+	#newcomment {
+		margin-bottom: 30px;
+	}
 
-table {
-	font-family: inherit;
-	font-size: inherit;
-}
+	.tt_20 {
+		width: 150px;
+	}
 
-a {
-	text-decoration: none;
-}
+	.form_inline {
+		margin-right: 20px;
+		display: inline;
+	}
 
-a:hover {
-	color: red;
-}
+	#table_theticket {
+		width: 100%;
+	}
 
-a:visited {
-	color: blue;
-}
+	#table_theticket td, #table_theticket th {
+		border: 1px solid #AAA;
+		padding: 8px;
+		text-align: left;
+	}
 
-p { 
-	margin:0px;
-	padding: 5px;
-}
-
-ul {
-	list-style-type: none;
-	margin: 0px;
-	padding: 0px;
-}
-
-li {
-	margin: 0px;
-	padding: 0px;
-}
-
-table {
-	border-collapse: collapse;
-}
-
-#topbar {
-	background-color: #EEE;
-	padding: 7px;
-	margin-bottom: 10px;
-}
-
-#topbar span span {
-	float: right;
-}
-
-#maintable {
-	width: 100%;
-	
-}
-
-#maintable td {
-	padding: 15px;
-	vertical-align: top;
-	margin: 5px;
-	padding-top: 0px;
-}
-
-#menu {
-	width: 150px;
-	background-color: #EEF;
-}
-
-#menu h1, #menu ul {
-	/*font-size: 15px;*/
-	border: 1px solid gray;
-	margin-bottom: 0px;
-	padding: 5px;
-}
-
-#menu h1 {
-	font-size: 120%;
-	margin-top: 10px;
-}
-
-#menu ul {
-	border-top: none;
-}
-
-#content {
-}
-
-#tickettable {
-	width: 100%;
-	margin-bottom: 0px;
-	padding-bottom: 0px;
-}
-
-#tickettable td, #tickettable th {
-	border: 1px solid #DDD;
-	text-align: left;
-	padding: 5px;
-}
+	#table_theticket th {
+		width: 160px;
+	}
 
 
-#ticket_descr {
-	border: 1px solid #AAA;
-	padding: 5px;
-	background-color: #DDD;
-	margin: 0px;
-	border-bottom: none;
-}
+	</style>
 
-.ticket_user {
-	float: left;
-}
+	{% block header %}
 
-.ticket_date {
-	float: right;
-}
-
-#comment {
-	border: 1px solid gray;
-	padding: 5px;
-	margin-bottom: 3px;
-}
-
-#newcomment textarea {
-	width: 100%;
-}
-
-#newcomment {
-	margin-bottom: 30px;
-}
-
-.tt_20 {
-	width: 150px;
-}
-
-.form_inline {
-	margin-right: 20px;
-	display: inline;
-}
-
-#table_theticket {
-	width: 100%;
-}
-
-#table_theticket td, #table_theticket th {
-	border: 1px solid #AAA;
-	padding: 8px;
-	text-align: left;
-}
-
-#table_theticket th {
-	width: 160px;
-}
-
-
-</style>
-
-{% block header %}
+	{% endblock %}
 
 {% endblock %}
 
 
-</head>
+{% block basebody %}
 
+	<table id="maintable">
+		<tr>
+		<td id="menu">
+		
+		<h1> Opcions </h1>
+		<ul>
+		<li> <a href="{% url tickets-open %}"> Obertes </a></li>
+		<li> <a href="{% url tickets-closed %}"> Tancades </a></li>
+		<li> <a href="{% url tickets-pending %}">Pendents </a></li>
+		</ul>
+		
+		<h1> Nova incidència </h1>
+		<ul>
+		<li> <a href="{% url tickets-new %}">Obrir nova</a> </li>
+		</ul>
+		
+		<h1> Utilitats </h1>
+		<ul>
+		<li> Darrers comentaris </li>
+		<li> Cercador </li>
+		</ul>
+		
+		
+		</td>
 
-<body>
-	
-{% include "hub/menu_iframe.html" %}
+		<td id="content">
 
+		{% block content %}
 
-<table id="maintable">
-	<tr>
-	<td id="menu">
-	
-	<h1> Opcions </h1>
-	<ul>
-	<li> <a href="{% url tickets-open %}"> Obertes </a></li>
-	<li> <a href="{% url tickets-closed %}"> Tancades </a></li>
-	<li> <a href="{% url tickets-pending %}">Pendents </a></li>
-	</ul>
-	
-	<h1> Nova incidència </h1>
-	<ul>
-	<li> <a href="{% url tickets-new %}">Obrir nova</a> </li>
-	</ul>
-	
-	<h1> Utilitats </h1>
-	<ul>
-	<li> Darrers comentaris </li>
-	<li> Cercador </li>
-	</ul>
-	
-	
-	</td>
+		{% endblock %}
 
-	<td id="content">
+		</td>
+		</tr>
+	</table>
 
-	{% block content %}
+{% endblock %}
 
-	{% endblock %}
-
-	</td>
-	</tr>
-</table>
-</body>
-
-</html>
