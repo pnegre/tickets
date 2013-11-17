@@ -55,6 +55,28 @@ $(document).ready(function() {
 <input type="submit" value="ELIMINA" name="changestate">
 </form>
 
+{% if canchangeuser %}
+	<br> <br>
+
+	Usuari assignat: <form method="POST" class="form_inline">
+		<select name="assigneduser">
+			<option value="-1"> --CAP-- </option>
+			{% for u in possibleusers %}	
+			<option
+				{% if ticket.assigned_user == u %}
+					selected="1"
+				{% endif %}
+					value = {{ u.id }}
+			/>	
+				{{ u }} 
+			</option>
+			{% endfor %}
+		</select>
+	<input type="hidden" name="action" value="changeuser">	
+	<input type="submit" value="CANVIA" name="changestate">
+	</form>
+{% endif %}
+
 {% endifequal %}
 {% ifequal ticket.state "T" %}
 <form method="POST" class="form_inline">

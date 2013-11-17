@@ -13,3 +13,6 @@ def getProject(user_):
 		p.save()
 	
 	return p.project
+
+def getProjectUser(us, proj):
+	return ProjectUser.objects.get(project=proj,user=us)

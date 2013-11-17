@@ -24,7 +24,7 @@ from tickets.aux import *
 @permission_required('tickets.adminTickets')
 def doList(request,typ):
 	proj = getProject(request.user)
-	projectUser = ProjectUser.objects.get(project=proj,user=request.user)
+	projectUser = getProjectUser(proj, request.user)
 	if projectUser.see_all == 1:
 		tickets = Ticket.objects.filter(state=typ,project=proj).order_by('date').reverse()
 	else:
@@ -72,7 +72,7 @@ def doTicket(request,ticket_id):
 				return redirect("tickets-pending")
 		elif fields['action'] == 'close':
 			ticket.state = 'T'
-			ticket.date_resolved = datetime.datetime.now()
+			ticket.date_resolved = datetime.now()
 			ticket.save()
 			return redirect("tickets-open")
 		elif fields['action'] == 'delete':
@@ -85,16 +85,33 @@ def doTicket(request,ticket_id):
 			ticket.state = 'P'
 			ticket.save()
 			return redirect("tickets-open")
+		elif fields['action'] == 'changeuser':
+			if fields['assigneduser'] == "-1":
+				ticket.assigned_user = None
+			else:
+				aus = User.objects.get(id=fields['assigneduser'])
+				ticket.assigned_user = aus
+			ticket.save()
+			return redirect("tickets-open")
 		
 	
 	ticket = Ticket.objects.filter(id=ticket_id)[0]
 	comments = Comment.objects.filter(ticket__id=ticket_id).order_by('date').reverse()
+	project = getProject(request.user)
+	userProject = getProjectUser(project, request.user)
+	possibleUsers = []
+	for up in ProjectUser.objects.filter(project=project):
+		possibleUsers.append(up.user)
+
+	canChangeUser = userProject.see_all == 1
 	
 	return render_to_response(
 		'tickets/ticket.html', {
 			'user': request.user,
 			'ticket': ticket,
 			'comments': comments,
+			'possibleusers': possibleUsers,
+			'canchangeuser': canChangeUser,
 	} )
 
 
