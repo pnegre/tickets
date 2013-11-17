@@ -14,6 +14,7 @@ class Project(models.Model):
 class ProjectUser(models.Model):
 	project = models.ForeignKey(Project)
 	user = models.ForeignKey(User)
+	see_all = models.IntegerField(default=0, blank=True, null=True)
 	
 	def __unicode__(self):
 		return self.user.username + " | " + unicode(self.project)
@@ -41,6 +42,7 @@ class Ticket(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES)
 	project = models.ForeignKey(Project)
 	priority = models.IntegerField(default=5)
+	assigned_user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
 	
 	def __unicode__(self):
 		return self.description[0:50]

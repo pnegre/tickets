@@ -24,7 +24,12 @@ from tickets.aux import *
 @permission_required('tickets.adminTickets')
 def doList(request,typ):
 	proj = getProject(request.user)
-	tickets = Ticket.objects.filter(state=typ,project=proj).order_by('date').reverse()
+	projectUser = ProjectUser.objects.get(project=proj,user=request.user)
+	if projectUser.see_all == 1:
+		tickets = Ticket.objects.filter(state=typ,project=proj).order_by('date').reverse()
+	else:
+		tickets = Ticket.objects.filter(state=typ,project=proj,assigned_user=request.user).order_by('date').reverse()
+
 	d = {'O': 'OBERTA', 'T': 'TANCADA', 'P': 'PENDENT'}
 	return render_to_response(
 		'tickets/index.html', { 
