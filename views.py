@@ -8,7 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from django.contrib.auth.decorators import login_required, permission_required
 
-from datetime import datetime
+import datetime
 from tickets.models import *
 
 import urllib2, urllib
@@ -72,7 +72,7 @@ def doTicket(request,ticket_id):
 				return redirect("tickets-pending")
 		elif fields['action'] == 'close':
 			ticket.state = 'T'
-			ticket.date_resolved = datetime.now()
+			ticket.date_resolved = datetime.datetime.now()
 			ticket.save()
 			return redirect("tickets-open")
 		elif fields['action'] == 'delete':
