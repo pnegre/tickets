@@ -14,5 +14,5 @@ def getProject(user_):
 	
 	return p.project
 
-def getProjectUser(us, proj):
+def getProjectUser(proj, us):
 	return ProjectUser.objects.get(project=proj,user=us)
