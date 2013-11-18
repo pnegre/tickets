@@ -67,7 +67,11 @@ div.yellow_helper {
 		<td class="tt_descr"> <a href="{% url ticket-show ticket.id %}">{{ ticket.description|truncatewords:12 }}</a> 
 			<div class="yellow_helper"> {{ ticket.description|markdown:"safe" }} </div>
 		</td>
-		<td class="tt_120"> {{ ticket.assigned_user }} </td>
+		<td class="tt_120"> {% if ticket.assigned_user %}
+		   						{{ ticket.assigned_user }}
+							{% else %}
+								---
+							{% endif %} </td>
 		<td class="tt_120"> {{ ticket.place }} </td>
 		<td class="tt_120"> {{ ticket.reporter_email }}  </td>
 	</tr>
