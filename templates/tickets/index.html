@@ -58,7 +58,7 @@ div.yellow_helper {
 <h2> Llista incidencies en estat "{{ state }}"</h2>
 
 <table id="tickettable">
-	<tr><th class="tt_20">Data</th><th class="tt_descr">Descripció</th><th class="tt_20">Assignat</th><th class="tt_20">Lloc</th><th class="tt_20">Usuari</th></tr>
+	<tr><th class="tt_20">Data</th><th class="tt_descr">Descripció</th><th class="tt_20">Assignat</th><th class="tt_20">Usuari</th></tr>
 {% for ticket in tickets %}
 	<tr>
 		<td class="tt_20"> {{ ticket.date|date:"d-m-y, H:i:s"}} 
@@ -68,7 +68,6 @@ div.yellow_helper {
 			<div class="yellow_helper"> {{ ticket.description|markdown:"safe" }} </div>
 		</td>
 		<td> {{ ticket.assigned_user }} </td>
-		<td class="tt_20"> {{ ticket.place.name }} </td>
 		<td class="tt_20"> {{ ticket.reporter_email }}  </td>
 	</tr>
 {% endfor %}
