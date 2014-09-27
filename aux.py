@@ -13,7 +13,7 @@ def getProject(user_):
     except:
         p = ProjectUser(user=user_,project=Project.objects.all()[0])
         p.save()
-    
+
     return p.project
 
 
@@ -34,12 +34,14 @@ def userCanSeeAll(us):
 def getTicketsAssignedToUser(us, typ):
     proj = getProject(us)
     pUser = ProjectUser.objects.get(project=proj,user=us)
+    tickets = Ticket.objects.filter(state=typ, project=proj)
 
     if pUser.see_all == 1:
-        tickets = Ticket.objects.filter(state=typ,project=proj).order_by('date').reverse()
+        pass
     else:
-        tickets = Ticket.objects.filter(state=typ,project=proj,assigned_user=us).order_by('date').reverse()
-    return tickets
+        tickets = tickets.filter(assigned_user=us) | tickets.filter(assigned_user=None)
+
+    return tickets.order_by('date').reverse()
 
 
 ##################################
