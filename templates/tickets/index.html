@@ -47,7 +47,7 @@ div.yellow_helper {
 	<tbody>
 {% for ticket in tickets %}
 	<tr>
-		<td> {{ ticket.date|date:"d-m-y"}}
+		<td> {{ ticket.date|date:"Y-m-d"}}
 		</td>
 
 		<td> <a href="{% url ticket-show ticket.id %}">{{ ticket.description|truncatewords:12 }}</a>
