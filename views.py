@@ -26,7 +26,7 @@ def doList(request,typ):
     tickets = getTicketsAssignedToUser(request.user, typ)
     d = {'O': 'OBERTA', 'T': 'TANCADA', 'P': 'PENDENT'}
     return render_to_response(
-        'tickets/index.html', { 
+        'tickets/index.html', {
             'user': request.user,
             'tickets': tickets,
             'state': d[typ],
@@ -41,7 +41,7 @@ EMAIL_TEXT = u"Aquest missatge l'ha enviat el programa d'incidències per avisar
 @permission_required('tickets.adminTickets')
 def doTicket(request,ticket_id):
     ticket = Ticket.objects.filter(id=ticket_id)[0]
-    
+
     if request.method == "POST":
         fields = request.POST
         if fields['action'] == 'new':
@@ -49,11 +49,11 @@ def doTicket(request,ticket_id):
             comment.save()
             if fields.has_key('email'):
                 send_mail(
-                    '[Es Liceu] Ticket ' + str(ticket.id), 
-                    EMAIL_TEXT + "\n\n" + ticket.description + "\n\n" + 
-                        "Comentari: \n\n" + fields['text'] + "\n\n" + 
-                        "Autor: " + request.user.email, 
-                    'tickets@esliceu.com', 
+                    '[Es Liceu] Ticket ' + str(ticket.id),
+                    EMAIL_TEXT + "\n\n" + ticket.description + "\n\n" +
+                        "Comentari: \n\n" + fields['text'] + "\n\n" +
+                        "Autor: " + request.user.email,
+                    'tickets@esliceu.com',
                     [ ticket.reporter_email ]
                 )
         elif fields['action'] == 'open':
@@ -87,13 +87,13 @@ def doTicket(request,ticket_id):
                 ticket.assigned_user = aus
             ticket.save()
             return redirect("tickets-open")
-        
-    
+
+
     ticket = Ticket.objects.filter(id=ticket_id)[0]
     comments = Comment.objects.filter(ticket__id=ticket_id).order_by('date').reverse()
     possibleUsers = getPossibleUsers(getProject(request.user))
     canChangeUser = userCanSeeAll(request.user)
-    
+
     return render_to_response(
         'tickets/ticket.html', {
             'user': request.user,
@@ -115,7 +115,7 @@ def newTicket(request):
         if form.is_valid():
             form.save(request.user)
             return redirect("tickets-open")
-    
+
     form = NewTicketForm(request.user)
     return render_to_response(
         'tickets/newticket.html', {
@@ -140,7 +140,7 @@ def userTicket(request):
                     'message_ok': "Incidència introduïda correctament",
                     'form': form,
             })
-    
+
     form = NewTicketFormUser()
     return render_to_response(
         'tickets/userticket.html', {
@@ -177,7 +177,7 @@ def getTickets(request):
         cmts = [ { 'text': c.text, 'author': c.author.username } for c in cm ]
         r.append({
             'id': t.id,
-            'description': t.description, 
+            'description': t.description,
             'reporter_email': t.reporter_email,
             'place': t.place.name,
             'date': str(t.date),
@@ -199,4 +199,3 @@ def getTicket(request,ticket_id):
         'place': x.place.name,
     }
     return HttpResponse(simplejson.dumps(r), mimetype='application/javascript')
-

@@ -8,28 +8,30 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-	
-	function get_yellow_div(t)
-	{
-		return t.parent().find('div.yellow_helper');
-	}
-	
-	$('td.tt_descr a').hover(function() {
-		var d = get_yellow_div($(this));
-		d.css("display","block");
-	}, function() {
-		var d = get_yellow_div($(this));
-		d.css("display","none");
-	});
 
-	$('td.tt_descr a').mousemove(function(e) {
-		var d = get_yellow_div($(this));
-		d.css("top", (e.pageY + 20) + "px");
-		d.css("left", (e.pageX + 20) + "px");
-	});
-	
-	$('#tickettable tr:even').css('background-color','#EEF');
-	$('#tickettable tr:odd').css('background-color','#EEE');
+	$("#tickettable").DataTable();
+
+	// function get_yellow_div(t)
+	// {
+	// 	return t.parent().find('div.yellow_helper');
+	// }
+	//
+	// $('td.tt_descr a').hover(function() {
+	// 	var d = get_yellow_div($(this));
+	// 	d.css("display","block");
+	// }, function() {
+	// 	var d = get_yellow_div($(this));
+	// 	d.css("display","none");
+	// });
+	//
+	// $('td.tt_descr a').mousemove(function(e) {
+	// 	var d = get_yellow_div($(this));
+	// 	d.css("top", (e.pageY + 20) + "px");
+	// 	d.css("left", (e.pageX + 20) + "px");
+	// });
+	//
+	// $('#tickettable tr:even').css('background-color','#EEF');
+	// $('#tickettable tr:odd').css('background-color','#EEE');
 
 });
 
@@ -58,24 +60,28 @@ div.yellow_helper {
 <h2> Llista incidencies en estat "{{ state }}"</h2>
 
 <table id="tickettable">
-	<tr><th class="tt_70">Data</th><th class="tt_descr">Descripció</th><th class="tt_120">Assignat</th><th class="tt_120">Lloc</th><th class="tt_120">Usuari</th></tr>
+	<thead>
+		<tr><th>Data</th><th>Descripció</th><th>Assignat</th><th>Lloc</th><th>Usuari</th></tr>
+	</thead>
+
+	<tbody>
 {% for ticket in tickets %}
 	<tr>
-		<td class="tt_70"> {{ ticket.date|date:"d-m-y"}} 
+		<td> {{ ticket.date|date:"d-m-y"}}
 		</td>
-		
-		<td class="tt_descr"> <a href="{% url ticket-show ticket.id %}">{{ ticket.description|truncatewords:12 }}</a> 
-			<div class="yellow_helper"> {{ ticket.description|markdown:"safe" }} </div>
+
+		<td> <a href="{% url ticket-show ticket.id %}">{{ ticket.description|truncatewords:12 }}</a>
 		</td>
-		<td class="tt_120"> {% if ticket.assigned_user %}
+		<td> {% if ticket.assigned_user %}
 		   						{{ ticket.assigned_user }}
 							{% else %}
 								---
 							{% endif %} </td>
-		<td class="tt_120"> {{ ticket.place }} </td>
-		<td class="tt_120"> {{ ticket.reporter_email }}  </td>
+		<td> {{ ticket.place }} </td>
+		<td> {{ ticket.reporter_email }}  </td>
 	</tr>
 {% endfor %}
+	</tbody>
 </table>
 
 {% endblock %}

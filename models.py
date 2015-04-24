@@ -5,7 +5,7 @@ from django.contrib.auth.models import *
 
 class Project(models.Model):
 	name = models.CharField(max_length=200)
-	
+
 	def __unicode__(self):
 		return self.name
 
@@ -15,14 +15,14 @@ class ProjectUser(models.Model):
 	project = models.ForeignKey(Project)
 	user = models.ForeignKey(User)
 	see_all = models.IntegerField(default=0, blank=True, null=True)
-	
+
 	def __unicode__(self):
 		return self.user.username + " | " + unicode(self.project)
 
 
 class Place(models.Model):
 	name = models.CharField(max_length=500)
-	
+
 	def __unicode__(self):
 		return self.name
 
@@ -33,7 +33,7 @@ class Ticket(models.Model):
 		(u'T', u'Tancada'),
 		(u'P', u'Pendent'),
     )
-	
+
 	description = models.TextField()
 	reporter_email = models.CharField(max_length=200)
 	date = models.DateTimeField(auto_now_add=True)
@@ -43,10 +43,10 @@ class Ticket(models.Model):
 	project = models.ForeignKey(Project)
 	priority = models.IntegerField(default=5)
 	assigned_user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
-	
+
 	def __unicode__(self):
 		return self.description[0:50]
-	
+
 	class Meta:
 		permissions = (
 			('adminTickets','Pot administrar tickets'),
@@ -59,7 +59,6 @@ class Comment(models.Model):
 	author = models.ForeignKey(User)
 	ticket = models.ForeignKey(Ticket)
 	date = models.DateTimeField(auto_now_add=True)
-	
+
 	def __unicode__(self):
 		return self.text[0:50]
-

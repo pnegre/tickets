@@ -3,9 +3,12 @@
 
 {% block baseheader %}
 
-	<title>Tickets</title>  
+	<title>Tickets</title>
 
-	<script type="text/javascript" src="/static/tickets/jquery.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.6/css/jquery.dataTables.css">
 
 	<style type="text/css">
 
@@ -31,7 +34,7 @@
 		color: blue;
 	}
 
-	p { 
+	p {
 		margin:0px;
 		padding: 5px;
 	}
@@ -63,7 +66,7 @@
 
 	#maintable {
 		width: 100%;
-		
+
 	}
 
 	#maintable td {
@@ -183,26 +186,26 @@
 	<table id="maintable">
 		<tr>
 		<td id="menu">
-		
+
 		<h1> Opcions </h1>
 		<ul>
 		<li> <a href="{% url tickets-open %}"> Obertes </a></li>
 		<li> <a href="{% url tickets-closed %}"> Tancades </a></li>
 		<li> <a href="{% url tickets-pending %}">Pendents </a></li>
 		</ul>
-		
+
 		<h1> Nova incidència </h1>
 		<ul>
 		<li> <a href="{% url tickets-new %}">Obrir nova</a> </li>
 		</ul>
-		
+
 		<h1> Utilitats </h1>
 		<ul>
 		<li> Darrers comentaris </li>
 		<li> Cercador </li>
 		</ul>
-		
-		
+
+
 		</td>
 
 		<td id="content">
@@ -216,4 +219,3 @@
 	</table>
 
 {% endblock %}
-
