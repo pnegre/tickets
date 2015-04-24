@@ -9,29 +9,9 @@
 
 $(document).ready(function() {
 
-	$("#tickettable").DataTable();
-
-	// function get_yellow_div(t)
-	// {
-	// 	return t.parent().find('div.yellow_helper');
-	// }
-	//
-	// $('td.tt_descr a').hover(function() {
-	// 	var d = get_yellow_div($(this));
-	// 	d.css("display","block");
-	// }, function() {
-	// 	var d = get_yellow_div($(this));
-	// 	d.css("display","none");
-	// });
-	//
-	// $('td.tt_descr a').mousemove(function(e) {
-	// 	var d = get_yellow_div($(this));
-	// 	d.css("top", (e.pageY + 20) + "px");
-	// 	d.css("left", (e.pageX + 20) + "px");
-	// });
-	//
-	// $('#tickettable tr:even').css('background-color','#EEF');
-	// $('#tickettable tr:odd').css('background-color','#EEE');
+	$("#tickettable").DataTable({
+		"order": [[ 0, "desc"]]
+	});
 
 });
 
