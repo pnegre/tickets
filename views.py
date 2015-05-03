@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.utils import simplejson
 from django.core.mail import send_mail
 from django.core.exceptions import ObjectDoesNotExist
+from django.template import RequestContext
 
 from django.contrib.auth.decorators import login_required, permission_required
 
@@ -17,6 +18,12 @@ from tickets.forms import *
 from tickets.aux import *
 
 
+# Quan treiem les pàgines amb RequestContext, fem visibles a la template
+# algunes variables que no estarien disponibles.
+# Les altres funcions cridaran a aquesta en haver de fer el render de les templates
+def renderResponse(request,tmpl,dic):
+    return render_to_response(tmpl, dic, context_instance=RequestContext(request))
+
 
 #######################
 # Llista de tickets (oberts, tancats...)
@@ -25,7 +32,8 @@ from tickets.aux import *
 def doList(request,typ):
     tickets = getTicketsAssignedToUser(request.user, typ)
     d = {'O': 'OBERTA', 'T': 'TANCADA', 'P': 'PENDENT'}
-    return render_to_response(
+    return renderResponse(
+        request,
         'tickets/index.html', {
             'user': request.user,
             'tickets': tickets,
@@ -94,7 +102,8 @@ def doTicket(request,ticket_id):
     possibleUsers = getPossibleUsers(getProject(request.user))
     canChangeUser = userCanSeeAll(request.user)
 
-    return render_to_response(
+    return renderResponse(
+        request,
         'tickets/ticket.html', {
             'user': request.user,
             'ticket': ticket,
@@ -117,7 +126,8 @@ def newTicket(request):
             return redirect("tickets-open")
 
     form = NewTicketForm(request.user)
-    return render_to_response(
+    return renderResponse(
+        request,
         'tickets/newticket.html', {
             'user': request.user,
             'form': form,
