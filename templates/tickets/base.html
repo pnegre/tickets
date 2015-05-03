@@ -12,109 +12,109 @@
 
 	<style type="text/css">
 
-	html {
+	#tickets_maindiv {
 		font-family: verdana;
 		font-size: 12px;
 	}
 
-	table {
+	#tickets_maindiv table {
 		font-family: inherit;
 		font-size: inherit;
 	}
 
-	a {
+	#tickets_maindiv a {
 		text-decoration: none;
 	}
 
-	a:hover {
+	#tickets_maindiv a:hover {
 		color: red;
 	}
 
-	a:visited {
+	#tickets_maindiv a:visited {
 		color: blue;
 	}
 
-	p {
+	#tickets_maindiv p {
 		margin:0px;
 		padding: 5px;
 	}
 
-	ul {
+	#tickets_maindiv ul {
 		list-style-type: none;
 		margin: 0px;
 		padding: 0px;
 	}
 
-	li {
+	#tickets_maindiv li {
 		margin: 0px;
 		padding: 0px;
 	}
 
-	table {
+	#tickets_maindiv table {
 		border-collapse: collapse;
 	}
 
-	#topbar {
+	#tickets_maindiv #topbar {
 		background-color: #EEE;
 		padding: 7px;
 		margin-bottom: 10px;
 	}
 
-	#topbar span span {
+	#tickets_maindiv #topbar span span {
 		float: right;
 	}
 
-	#maintable {
+	#tickets_maindiv #maintable {
 		width: 100%;
 
 	}
 
-	#maintable td {
+	#tickets_maindiv #maintable td {
 		padding: 15px;
 		vertical-align: top;
 		margin: 5px;
 		padding-top: 0px;
 	}
 
-	#menu {
+	#tickets_maindiv #menu {
 		width: 150px;
 		background-color: #EEF;
 	}
 
-	#menu h1, #menu ul {
+	#tickets_maindiv #menu h1, #tickets_maindiv #menu ul {
 		/*font-size: 15px;*/
 		border: 1px solid gray;
 		margin-bottom: 0px;
 		padding: 5px;
 	}
 
-	#menu h1 {
+	#tickets_maindiv #menu h1 {
 		font-size: 120%;
 		margin-top: 10px;
 	}
 
-	#menu ul {
+	#tickets_maindiv #menu ul {
 		border-top: none;
 	}
 
-	#content {
+	#tickets_maindiv #content {
 	}
 
-	#tickettable {
+	#tickets_maindiv #tickettable {
 		width: 100%;
 		margin-bottom: 0px;
 		padding-bottom: 0px;
 		font-size: 10px;
 	}
 
-	#tickettable td, #tickettable th {
+	#tickets_maindiv #tickettable td, #tickets_maindiv #tickettable th {
 		border: 1px solid #DDD;
 		text-align: left;
 		padding: 5px;
 	}
 
 
-	#ticket_descr {
+	#tickets_maindiv #ticket_descr {
 		border: 1px solid #AAA;
 		padding: 5px;
 		background-color: #DDD;
@@ -122,52 +122,52 @@
 		border-bottom: none;
 	}
 
-	.ticket_user {
+	#tickets_maindiv .ticket_user {
 		float: left;
 	}
 
-	.ticket_date {
+	#tickets_maindiv .ticket_date {
 		float: right;
 	}
 
-	#comment {
+	#tickets_maindiv #comment {
 		border: 1px solid gray;
 		padding: 5px;
 		margin-bottom: 3px;
 	}
 
-	#newcomment textarea {
+	#tickets_maindiv #newcomment textarea {
 		width: 100%;
 	}
 
-	#newcomment {
+	#tickets_maindiv #newcomment {
 		margin-bottom: 30px;
 	}
 
-	.tt_120 {
+	#tickets_maindiv .tt_120 {
 		width: 120px;
 	}
 
-	.tt_70 {
+	#tickets_maindiv .tt_70 {
 		width: 70px;
 	}
 
-	.form_inline {
+	#tickets_maindiv .form_inline {
 		margin-right: 20px;
 		display: inline;
 	}
 
-	#table_theticket {
+	#tickets_maindiv #table_theticket {
 		width: 100%;
 	}
 
-	#table_theticket td, #table_theticket th {
+	#tickets_maindiv #table_theticket td, #tickets_maindiv #table_theticket th {
 		border: 1px solid #AAA;
 		padding: 8px;
 		text-align: left;
 	}
 
-	#table_theticket th {
+	#tickets_maindiv #table_theticket th {
 		width: 160px;
 	}
 
@@ -181,7 +181,10 @@
 {% endblock %}
 
 
+
 {% block basebody %}
+
+	<div id="tickets_maindiv">
 
 	<table id="maintable">
 		<tr>
@@ -217,5 +220,7 @@
 		</td>
 		</tr>
 	</table>
+
+	</div>
 
 {% endblock %}
