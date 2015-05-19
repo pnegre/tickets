@@ -1,6 +1,6 @@
 {% extends "tickets/base.html" %}
 
-{% load markup %}
+{% load md2 %}
 
 
 {% block header %}
@@ -36,7 +36,7 @@ $(document).ready(function() {
 		<td> {{ ticket.date|date:"Y-m-d"}}
 		</td>
 
-		<td> <a href="{% url ticket-show ticket.id %}">{{ ticket.description|truncatewords:12 }}</a>
+		<td> <a href="{% url 'ticket-show' ticket.id %}">{{ ticket.description|truncatewords:12 }}</a>
 		</td>
 		<td> {% if ticket.assigned_user %}
 		   						{{ ticket.assigned_user }}

@@ -2,7 +2,7 @@
 
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import HttpResponse
-from django.utils import simplejson
+import json as simplejson
 from django.core.mail import send_mail
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import RequestContext
