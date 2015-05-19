@@ -145,14 +145,21 @@ def userTicket(request):
         if form.is_valid():
             data = form.cleaned_data
             form.save(request.user)
-            return render_to_response(
+
+            # Fem logout
+            from django.contrib.auth import logout
+            logout(request);
+
+            return renderResponse(
+                request,
                 'tickets/userticket.html', {
                     'message_ok': "Incidència introduïda correctament",
                     'form': form,
             })
 
     form = NewTicketFormUser()
-    return render_to_response(
+    return renderResponse(
+        request,
         'tickets/userticket.html', {
             'form': form,
     } )

@@ -41,16 +41,19 @@ $(document).ready(function() {
 
 {% ifequal ticket.state "O" %}
 <form method="POST" class="form_inline">
+{% csrf_token %}
 <input type="hidden" name="action" value="close">
 <input type="submit" value="TANCA">
 </form>
 
 <form method="POST" class="form_inline">
+{% csrf_token %}
 <input type="hidden" name="action" value="pending">
 <input type="submit" value="MARCA COM A PENDENT">
 </form>
 
 <form method="POST" class="form_inline">
+{% csrf_token %}
 <input type="hidden" name="action" value="delete">
 <input type="submit" value="ELIMINA" name="changestate">
 </form>
@@ -59,6 +62,7 @@ $(document).ready(function() {
 	<br> <br>
 
 	Usuari assignat: <form method="POST" class="form_inline">
+		{% csrf_token %}
 		<select name="assigneduser">
 			<option value="-1"> --CAP-- </option>
 			{% for u in possibleusers %}
@@ -80,6 +84,7 @@ $(document).ready(function() {
 {% endifequal %}
 {% ifequal ticket.state "T" %}
 <form method="POST" class="form_inline">
+{% csrf_token %}
 <input type="hidden" name="action" value="open">
 <input type="submit" value="OBRE" name="changestate">
 </form>
@@ -87,6 +92,7 @@ $(document).ready(function() {
 
 {% ifequal ticket.state "P" %}
 <form method="POST" class="form_inline">
+{% csrf_token %}
 <input type="hidden" name="action" value="open">
 <input type="submit" value="OBRE" name="changestate">
 </form>
@@ -97,6 +103,7 @@ $(document).ready(function() {
 
 {% ifequal ticket.state "O" %}
 <form method="POST" id="newcomment">
+	{% csrf_token %}
 
 	<p>Comentari:</p>
 	<textarea rows=10 name="text"></textarea>

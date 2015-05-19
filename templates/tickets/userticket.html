@@ -174,7 +174,7 @@
 
 		<script>
 			redirTime = "1000";
-			redirURL = "/auth/logout";
+			redirURL = "http://www.esliceu.com";
 			setTimeout("self.location.href = redirURL;",redirTime);
 		</script>
 
@@ -192,6 +192,7 @@
 {% else %}
 
 	<form method="post" enctype="multipart/form-data">
+	{% csrf_token %}
 
 	<div id="TIPUS"><p>PAS 1: Sel·lecciona el tipus d'incidència</p>Tipus d'incidència:
 	<select name="project" >
