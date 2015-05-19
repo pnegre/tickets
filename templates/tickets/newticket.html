@@ -9,6 +9,8 @@
 
 	<form method="POST">
 
+		{% csrf_token %}
+
 	Text: <br>{{ form.text }}
 	<br><br>
 	Lloc: {{ form.place }}
