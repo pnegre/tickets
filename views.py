@@ -172,13 +172,13 @@ def userTicket(request):
 def getPlaces(request):
     places = Place.objects.all()
     r = dict(map(lambda x: (x.id, x.name), places))
-    return HttpResponse(simplejson.dumps(r), mimetype='application/javascript')
+    return HttpResponse(simplejson.dumps(r), content_type='application/javascript')
 
 @login_required
 def getProjects(request):
     projects = Project.objects.all()
     r = dict(map(lambda x: (x.id, x.name), projects))
-    return HttpResponse(simplejson.dumps(r), mimetype='application/javascript')
+    return HttpResponse(simplejson.dumps(r), content_type='application/javascript')
 
 
 
@@ -200,7 +200,7 @@ def getTickets(request):
             'date': str(t.date),
             'comments': cmts,
         })
-    return HttpResponse(simplejson.dumps(r), mimetype='application/javascript')
+    return HttpResponse(simplejson.dumps(r), content_type='application/javascript')
 
 
 ##################################
@@ -215,4 +215,4 @@ def getTicket(request,ticket_id):
         'date': str(x.date),
         'place': x.place.name,
     }
-    return HttpResponse(simplejson.dumps(r), mimetype='application/javascript')
+    return HttpResponse(simplejson.dumps(r), content_type='application/javascript')
